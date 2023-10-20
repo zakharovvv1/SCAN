@@ -1,0 +1,131 @@
+.header {
+  max-height: 93px;
+  display: flex;
+  padding: 15px 60px 15px 63px;
+  align-items: center;
+}
+
+.ul {
+  margin-left: 398px;
+  display: flex;
+  align-items: center;
+  column-gap: 49px;
+}
+
+li {
+  a {
+    cursor: pointer;
+    color: #000;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.14px;
+  }
+  list-style: none;
+}
+
+.logo {
+  img {
+    transform: translateY(5px);
+    width: 100%;
+  }
+}
+
+.limitCompany {
+  margin-right: 128px;
+  margin-left: 128px;
+  position: relative;
+  p {
+    justify-self: flex-start;
+    color: #000;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    opacity: 0.4;
+  }
+  border-radius: 5px;
+  background-color: rgba(217, 217, 217, 0.3);
+  border-radius: 5px;
+  padding: 14px 10px;
+  column-gap: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.limitCompanyTextItem {
+  p {
+    &:first-child {
+      margin-bottom: 7px;
+    }
+  }
+  color: red;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.14px;
+
+  column-gap: 7px;
+  align-items: end;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.limitCompanyCountItem {
+  @extend .limitCompanyTextItem;
+  align-items: flex-start;
+  justify-content: baseline;
+  div {
+    &:first-child {
+      margin-bottom: 2px;
+    }
+  }
+}
+
+.userName {
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.14px;
+}
+
+.quit {
+  color: #000;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  opacity: 0.4;
+  background-color: transparent;
+  border: 0px;
+}
+
+.userNameAndQuit {
+  margin-right: 1.8px;
+  align-items: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.user {
+  display: flex;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}

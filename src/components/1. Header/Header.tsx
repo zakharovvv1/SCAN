@@ -1,3 +1,4 @@
+import BurgerMenu from "../6. BurgerMenu/BurgerMenu";
 import styles from "./Header.module.scss";
 import avatar from "./Imgs/avatar.png";
 import logo from "./Imgs/Logo.svg";
@@ -35,6 +36,7 @@ const Header = () => {
         </div>
         <img className={styles.avatar} src={avatar} alt="" />
       </div>
+      <BurgerMenu />
     </header>
   );
 };

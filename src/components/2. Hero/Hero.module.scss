@@ -1,0 +1,94 @@
+.hero {
+  display: flex;
+}
+
+.left {
+  flex: 0 1 60%;
+  padding-bottom: 90px;
+  text-align: left;
+}
+
+.title {
+  color: #000;
+  font-family: Ferry;
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+
+.subtitle {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  margin-top: 20px;
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 5px;
+  background: #5970ff;
+  padding: 14px 63px;
+  box-shadow: none;
+  border: 0px;
+  margin-top: 70px;
+  color: #fff;
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.22px;
+}
+
+.btn:hover {
+  background: #1d2a7f;
+}
+
+.right {
+  flex: 0 1 50%;
+  img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1025px) {
+  .title {
+    font-size: 50px;
+  }
+}
+@media (max-width: 800px) {
+  .title {
+    font-size: 40px;
+  }
+}
+@media (max-width: 769px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  main {
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .left {
+    padding-bottom: 20px;
+  }
+  .btn {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  .title {
+    font-size: 30px;
+  }
+}

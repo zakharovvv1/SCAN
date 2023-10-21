@@ -1,0 +1,253 @@
+.ourRatesSection {
+  padding-bottom: 118px;
+}
+
+.ratesContainer {
+  display: flex;
+  column-gap: 37px;
+}
+
+.titleH2 {
+  margin-bottom: 70px;
+  text-align: left;
+  color: #000;
+  font-family: Ferry;
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.45px;
+}
+
+.rateItem {
+  //   max-width: 415px;
+  border-radius: 10px;
+  border: 2px solid #ffb64f;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.rateItemPro,
+.rateItemBusiness {
+  border: 0px solid #ffb64f;
+}
+
+.ratesContainer {
+  display: flex;
+}
+
+.rateItemTitleH3 {
+  color: #000;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.3px;
+}
+
+.rateItemTitleH3Business {
+  color: #fff;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.3px;
+}
+
+.rateItemTitleText {
+  //   text-wrap: nowrap;
+  color: #000;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.18px;
+}
+
+.rateItemTitleTextBusiness {
+  color: #fff;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.18px;
+}
+
+.rateItemTitleBeginner {
+  padding-top: 30px;
+  padding-left: 30px;
+  padding-bottom: 34px;
+  padding-right: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px 10px 0px 0px;
+  background: #ffb64f;
+}
+
+.rateItemTitlePro {
+  max-height: 132px;
+  @extend .rateItemTitleBeginner;
+  background: #7ce3e1;
+}
+
+.rateItemTitleBusiness {
+  @extend .rateItemTitleBeginner;
+  background: #000;
+}
+.rateItemTitleLeft {
+  text-align: left;
+}
+
+.rateItemTitleH3 {
+  margin-bottom: 10px;
+}
+
+.rateItemTitleImg {
+  transform: translateY(-10px);
+}
+
+.rateItemInfo {
+  padding-bottom: 24px;
+  text-align: left;
+  padding-top: 33px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.rateItemInfoPrice {
+  color: #000;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.3px;
+  margin-right: 20px;
+}
+
+.rateItemInfoPriceOld {
+  color: #000;
+  font-family: Inter;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.25px;
+  text-decoration-line: strikethrough;
+  opacity: 0.5;
+}
+
+.rateItemInfoTextUnderPrice {
+  //   text-wrap: nowrap;
+  margin-top: 10px;
+  color: #000;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.18px;
+}
+
+.rateItemInfoIncludeText {
+  margin-bottom: 10px;
+  margin-top: 59px;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.2px;
+}
+
+.rateItemInfoIncludeItem {
+  &:nth-child(n + 3) {
+    margin-bottom: 5px;
+  }
+
+  display: flex;
+  column-gap: 8px;
+
+  p {
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.18px;
+  }
+}
+
+.goToProfile {
+  //   text-wrap: nowrap;
+  cursor: pointer;
+  border-radius: 5px;
+  background: #d2d2d2;
+  padding: 18px 39px 18px 40px;
+  margin-top: 55px;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  width: 100%;
+}
+
+.goToProfileBusiness,
+.goToProfilePro {
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  border-radius: 5px;
+  background: #5970ff;
+}
+
+div[class*="rateItemTitle"] {
+  max-height: 132px;
+}
+
+@media (max-width: 1025px) {
+  .ratesContainer {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 0px;
+    row-gap: 20px;
+  }
+
+  .rateItem {
+    flex: 0 1 48%;
+  }
+
+  .rateItemBusiness {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 0 1 100%;
+    & > {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 769px) {
+  .titleH2 {
+    text-align: center;
+  }
+  .ratesContainer {
+    & > * {
+      flex: 0 1 100%;
+    }
+  }
+}

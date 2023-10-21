@@ -1,0 +1,11 @@
+.burger {
+  width: 30px;
+  height: 25px;
+  background-image: url(./imgs//img.svg);
+}
+
+@media (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+}

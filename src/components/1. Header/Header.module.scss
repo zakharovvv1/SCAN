@@ -1,4 +1,5 @@
 .header {
+  justify-content: space-between;
   max-height: 93px;
   display: flex;
   padding: 15px 60px 15px 63px;
@@ -6,7 +7,7 @@
 }
 
 .ul {
-  margin-left: 398px;
+  margin-left: 30.25%;
   display: flex;
   align-items: center;
   column-gap: 49px;
@@ -27,6 +28,9 @@ li {
 }
 
 .logo {
+  flex: 0 0 141px;
+  width: 141px;
+  height: 93px;
   img {
     transform: translateY(5px);
     width: 100%;
@@ -34,8 +38,8 @@ li {
 }
 
 .limitCompany {
-  margin-right: 128px;
-  margin-left: 128px;
+  margin-right: 9.7%;
+  margin-left: 9.7%;
   position: relative;
   p {
     justify-self: flex-start;
@@ -128,4 +132,51 @@ li {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+}
+
+@media (max-width: 1439px) {
+  .ul {
+    margin-left: 15%;
+  }
+  .limitCompany {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media (max-width: 1025px) {
+  .ul {
+    margin-left: 5%;
+    column-gap: 20px;
+  }
+}
+@media (max-width: 1025px) {
+  .ul {
+    margin-left: 3%;
+    column-gap: 15px;
+  }
+
+  .limitCompany {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+}
+
+@media (max-width: 769px) {
+  .ul {
+    display: none;
+  }
+  .header {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .user {
+    display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .limitCompany {
+    display: none;
+  }
 }

@@ -1,4 +1,5 @@
 .loginScreen {
+  padding-bottom: 80px;
   padding-top: 70px;
   display: flex;
   padding-left: 60px;
@@ -6,6 +7,7 @@
 }
 
 .loginTitle {
+  padding-right: 30px;
   text-align: left;
   color: #000;
   font-family: Ferry;
@@ -22,6 +24,9 @@
 }
 
 .loginBtn {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 100%;
   color: #029491;
   font-family: Inter;
   font-size: 16px;
@@ -39,10 +44,214 @@
 }
 
 .form {
+  position: relative;
+  padding-bottom: 39px;
   padding-top: 17px;
   padding-left: 25px;
   padding-right: 25px;
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.loginOrPhone {
+  text-align: left;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.passwordText {
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.inputLoginPhone {
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  background-color: transparent;
+  width: 100%;
+  min-height: 43px;
+}
+
+.inputPassword {
+  @extend .inputLoginPhone;
+  margin-bottom: 30px;
+}
+
+.logInBtn {
+  cursor: not-allowed;
+  border-radius: 5px;
+  background: #5970ff;
+  padding: 16px 156px;
+  color: #fff;
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.44px;
+}
+
+.forgotPassword {
+  margin-top: 15px;
+  border: 0px;
+  background-color: transparent;
+  color: #5970ff;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.28px;
+  text-decoration-line: underline;
+}
+
+.loginWithText {
+  margin-top: 30px;
+  margin-bottom: 16px;
+  text-align: left;
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.loginWithSocial {
+  display: flex;
+  column-gap: 10px;
+}
+
+.keyImg {
+  position: absolute;
+  left: -50px;
+  top: -50px;
+}
+.left {
+  position: relative;
+  img {
+    position: relative;
+    right: 20%;
+  }
+}
+
+.loginTitle {
+  margin-bottom: 13px;
+}
+
+@media (max-width: 1200px) {
+  .loginTitle {
+    font-size: 30px;
+  }
+
+  .left {
+    img {
+      right: 10%;
+    }
+  }
+}
+
+@media (max-width: 1025px) {
+  .loginScreen {
+    padding-right: 60px;
+  }
+}
+
+@media (max-width: 950px) {
+  .loginScreen {
+    flex-direction: column;
+  }
+
+  .logInBtn {
+    padding: 16px 0px;
+    width: 100%;
+  }
+
+  .left {
+    img {
+      position: absolute;
+      right: 20vw;
+      bottom: -127vh;
+    }
+  }
+
+  .loginScreen {
+    padding-top: 30px;
+  }
+
+  .loginScreen {
+    padding-bottom: 485px;
+  }
+
+  .loginTitle {
+    margin-bottom: 126px;
+  }
+
+  .keyImg {
+    top: -80px;
+    left: 100px;
+  }
+}
+
+@media (max-width: 426px) {
+  .loginScreen {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .loginTitle {
+    font-size: 22px;
+  }
+
+  .left {
+    img {
+      right: 10vw;
+    }
+  }
+
+  .form {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (max-width: 374px) {
+  .left {
+    img {
+      right: -5vw;
+    }
+  }
+
+  .loginWithSocial {
+    flex-direction: column;
+
+    img {
+      width: 100%;
+      height: 31px;
+    }
+
+    row-gap: 15px;
+  }
+
+  .loginWithText {
+    text-align: center;
+  }
 }

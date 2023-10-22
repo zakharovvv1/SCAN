@@ -1,15 +1,14 @@
 import Footer from "../05. Footer/Footer";
 import Header from "../1. Header/Header";
-import LoginScreen from "./LoginScreen";
-
-const LoginMain = () => {
+import SearchScreen from "./SearchScreen";
+const SearchMain = () => {
   return (
     <>
       <Header />
-      <LoginScreen />
+      <SearchScreen />
       <Footer />
     </>
   );
 };
 
-export default LoginMain;
+export default SearchMain;

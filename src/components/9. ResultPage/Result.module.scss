@@ -1,0 +1,151 @@
+.resultSection {
+  padding-top: 69px;
+
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+.resultTableContainer {
+}
+.resultHeroTitle {
+  text-align: left;
+  color: #000;
+  font-family: Ferry;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 1.6px;
+  margin-bottom: 36px;
+}
+
+.resultHeroSubtitle {
+  text-align: left;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+.resultHero {
+  justify-content: space-between;
+  display: flex;
+}
+
+.resultHeroImg {
+  transform: translateY(-40px);
+}
+
+.resultHeroImgContainer {
+  padding-right: 30px;
+}
+
+.resultTableTitle {
+  text-align: left;
+  margin-bottom: 17px;
+  color: #000;
+  font-family: Ferry;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+
+.resultTableSubtitle {
+  color: #949494;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.36px;
+  text-align: left;
+  margin-bottom: 27px;
+}
+
+.resultTable {
+  background: #029491;
+  padding-right: 21px;
+  border-radius: 10px;
+  border: 2px solid #029491;
+  background: #fff;
+  display: flex;
+}
+
+.resultTableInfo {
+  padding-bottom: 17px;
+  padding-top: 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  p {
+    &:not(:last-child) {
+      margin-bottom: 26px;
+    }
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.4px;
+  }
+
+  padding-left: 28px;
+  padding-right: 28px;
+  border-radius: 10px 0px 0px 10px;
+  background: #029491;
+}
+
+.resultTableItem {
+  position: relative;
+  &:nth-child(2) {
+    padding-left: 14px;
+  }
+  &::after {
+    opacity: 0.4;
+    background: #949494;
+    z-index: 100;
+    position: absolute;
+    content: "";
+    width: 2px;
+    height: 124px;
+    right: 0;
+  }
+
+  padding-top: 17px;
+  padding-bottom: 17px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding-left: 21px;
+  padding-right: 21px;
+  p {
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.36px;
+  }
+}
+
+.resultTableAndArrowContainer {
+  display: flex;
+  align-items: center;
+}
+
+.tableArrowLeft {
+  transform: translateX(-5px);
+  margin-right: 5px;
+}
+.tableArrowRight {
+  margin-left: 10px;
+}

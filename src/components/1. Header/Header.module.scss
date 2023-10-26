@@ -104,6 +104,13 @@ li {
 }
 
 .quit {
+  transition: all 0.5s ease;
+  &:hover {
+    background-color: #029491;
+    color: white;
+    opacity: 1;
+  }
+  cursor: pointer;
   color: #000;
   font-family: Inter;
   font-size: 10px;
@@ -132,6 +139,60 @@ li {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+}
+
+.logInOrSignUpContainer {
+  display: flex;
+}
+
+.SignUpBtnHeader {
+  cursor: pointer;
+  margin-right: 18px;
+  border: 0px;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.14px;
+  background-color: transparent;
+  transition: all 0.5s ease;
+  &:hover {
+    color: #029491;
+  }
+}
+
+.loginBtnHeaderContainer {
+  &::after {
+    display: block;
+    content: "";
+    width: 2px;
+    height: 100%;
+    background-color: #029491;
+    opacity: 0.6;
+    transform: translateY(-100%);
+  }
+}
+
+.loginBtnHeader {
+  &:hover {
+    background: #55bdbb;
+  }
+  transition: all 0.5s ease;
+  cursor: pointer;
+  margin-left: 20px;
+  padding: 5px 12px;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.14px;
+  border-radius: 5px;
+  background: #7ce3e1;
+  border: 0px;
 }
 
 @media (max-width: 1439px) {

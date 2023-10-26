@@ -4,7 +4,14 @@ import google from "./imgs/google.svg";
 import facebook from "./imgs/facebook.svg";
 import yandex from "./imgs/yandex.svg";
 import keyImg from "./imgs/keyImg.svg";
+import { useState } from "react";
+import useCustomHook from "../LoginLogic/useCustomHook";
 const LoginScreen = () => {
+  const { loaderUserAccount, logInAccountHandleClick } = useCustomHook();
+  const [userInfo, setUserInfo] = useState({
+    login: "",
+    password: "",
+  });
   return (
     <section className={styles.loginScreen}>
       <div className={styles.left}>
@@ -21,10 +28,53 @@ const LoginScreen = () => {
             <button className={styles.signUpBtn}>Зарегистрироваться</button>
           </div>
           <p className={styles.loginOrPhone}>Логин или номер телефона:</p>
-          <input className={styles.inputLoginPhone} type="text" />
+          <input
+            onChange={(e) => {
+              setUserInfo((prev) => {
+                return { ...prev, login: e.target.value };
+              });
+            }}
+            className={
+              userInfo.login.length < 6
+                ? styles.inputErrorPassword
+                : styles.inputPassword
+            }
+            type={"text"}
+          />
+          {userInfo.login.length < 6 && userInfo.login.length > 0 && (
+            <p className={styles.errorPassword}>Неправильный логин</p>
+          )}
+
           <p className={styles.passwordText}>Пароль</p>
-          <input className={styles.inputPassword} type="password" />
-          <button disabled className={styles.logInBtn}>
+          <input
+            onChange={(e) => {
+              setUserInfo((prev) => {
+                return { ...prev, password: e.target.value };
+              });
+            }}
+            className={
+              userInfo.password.length < 6
+                ? styles.inputErrorPassword
+                : styles.inputPassword
+            }
+            type="password"
+          />
+
+          {userInfo.password.length < 6 && userInfo.password.length > 0 && (
+            <p className={styles.errorPassword}>Неправильный пароль</p>
+          )}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              logInAccountHandleClick(userInfo);
+            }}
+            disabled={
+              userInfo.password.length > 6 && userInfo.login.length > 6
+                ? false
+                : true
+            }
+            className={styles.logInBtn}
+          >
             Войти
           </button>
           <button className={styles.forgotPassword}>Восстановить пароль</button>

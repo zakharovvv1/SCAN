@@ -1,8 +1,17 @@
+import { useSelector } from "react-redux";
 import BurgerMenu from "../6. BurgerMenu/BurgerMenu";
 import styles from "./Header.module.scss";
 import avatar from "./Imgs/avatar.png";
 import logo from "./Imgs/Logo.svg";
+import { TypeUserInStore } from "../store/userSlice";
 const Header = () => {
+  const currentUserInStore: TypeUserInStore = useSelector(
+    (state) => state.user
+  );
+  console.log(
+    "🚀 ~ file: Header.tsx:11 ~ Header ~ currentUserInStore:",
+    currentUserInStore
+  );
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -19,23 +28,35 @@ const Header = () => {
           <a>FAQ</a>
         </li>
       </ul>
-      <div className={styles.limitCompany}>
-        <div className={styles.limitCompanyTextItem}>
-          <p>Использовано компаний</p>
-          <p>Лимит по компаниям</p>
+      {currentUserInStore.companyLimit !== 0 && (
+        <div className={styles.limitCompany}>
+          <div className={styles.limitCompanyTextItem}>
+            <p>Использовано компаний</p>
+            <p>Лимит по компаниям</p>
+          </div>
+          <div className={styles.limitCompanyCountItem}>
+            <div>{currentUserInStore.usedCompanyCount}</div>
+            <div>{currentUserInStore.companyLimit}</div>
+          </div>
         </div>
-        <div className={styles.limitCompanyCountItem}>
-          <div>{34}</div>
-          <div>{100}</div>
+      )}
+      {currentUserInStore.companyLimit !== 0 ? (
+        <div className={styles.user}>
+          <div className={styles.userNameAndQuit}>
+            <p className={styles.userName}>Алексей А.</p>
+            <button className={styles.quit}>Выйти</button>
+          </div>
+          <img className={styles.avatar} src={avatar} alt="" />
         </div>
-      </div>
-      <div className={styles.user}>
-        <div className={styles.userNameAndQuit}>
-          <p className={styles.userName}>Алексей А.</p>
-          <button className={styles.quit}>Выйти</button>
+      ) : (
+        <div className={styles.logInOrSignUpContainer}>
+          <button className={styles.SignUpBtnHeader}>Зарегистрироваться</button>
+          <div className={styles.loginBtnHeaderContainer}>
+            <button className={styles.loginBtnHeader}>Войти</button>
+          </div>
         </div>
-        <img className={styles.avatar} src={avatar} alt="" />
-      </div>
+      )}
+
       <BurgerMenu />
     </header>
   );

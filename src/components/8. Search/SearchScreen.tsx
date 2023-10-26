@@ -22,10 +22,13 @@ const SearchScreen = () => {
               id=""
             />
             <p className={styles.formText}>Тональность</p>
-            <select className={styles.searchSelect} name="" id="">
-              <option selected value="Любая">
-                Любая
-              </option>
+            <select
+              defaultValue="Любая"
+              className={styles.searchSelect}
+              name=""
+              id=""
+            >
+              <option value="Любая">Любая</option>
             </select>
             <p className={styles.formText}>Количество документов в выдаче*</p>
             <input
@@ -40,23 +43,21 @@ const SearchScreen = () => {
             </p>
             <div className={styles.rangeContainer}>
               <select
+                defaultValue="Любая"
                 className={styles.searchSelect + " " + styles.range}
                 name=""
                 id=""
               >
-                <option selected value="Любая">
-                  Дата начала
-                </option>
+                <option value="Любая">Дата начала</option>
                 <option value="Любая">Любая</option>
               </select>
               <select
+                defaultValue="Любая"
                 className={styles.searchSelect + " " + styles.range}
                 name=""
                 id=""
               >
-                <option selected value="Любая">
-                  Дата конца
-                </option>
+                <option value="Любая">Дата конца</option>
                 <option value="Любая">Любая</option>
               </select>
             </div>

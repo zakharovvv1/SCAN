@@ -24,6 +24,12 @@
 }
 
 .loginBtn {
+  &:hover {
+    background-color: #029491;
+    color: white;
+  }
+  transition: all 0.5s ease;
+  cursor: pointer;
   padding-top: 8px;
   padding-bottom: 8px;
   width: 100%;
@@ -40,6 +46,15 @@
 }
 
 .signUpBtn {
+  border-bottom: 1px solid #c7c7c7;
+
+  color: #c7c7c7;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
   @extend .loginBtn;
 }
 
@@ -69,7 +84,6 @@
 
 .passwordText {
   text-align: left;
-  margin-top: 20px;
   margin-bottom: 15px;
   color: #949494;
   font-family: Inter;
@@ -81,6 +95,9 @@
 }
 
 .inputLoginPhone {
+  font-size: 20px;
+  padding-left: 20px;
+  color: #000;
   border-radius: 5px;
   border: 1px solid #c7c7c7;
   background: #fff;
@@ -90,13 +107,34 @@
   min-height: 43px;
 }
 
-.inputPassword {
-  @extend .inputLoginPhone;
+.inputErrorPassword {
+  transition: all 0.5s ease;
+  &:focus {
+    border: 1px solid #ff5959;
+    outline: none;
+    box-shadow: 0px 0px 20px 0px rgba(255, 89, 89, 0.2);
+  }
+  font-size: 20px;
+  padding-left: 20px;
+  color: #000;
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  background-color: transparent;
+  width: 100%;
+  min-height: 43px;
   margin-bottom: 30px;
+  border-radius: 5px;
+  background: #fff;
 }
 
 .logInBtn {
-  cursor: not-allowed;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  cursor: pointer;
   border-radius: 5px;
   background: #5970ff;
   padding: 16px 156px;
@@ -107,6 +145,12 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.44px;
+  transition: all 0.5s ease;
+  border: 0px;
+}
+
+.logInBtn:hover {
+  background-color: #142590;
 }
 
 .forgotPassword {
@@ -156,6 +200,11 @@
 
 .loginTitle {
   margin-bottom: 13px;
+}
+
+.inputPassword {
+  @extend .inputLoginPhone;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 1200px) {
@@ -254,4 +303,16 @@
   .loginWithText {
     text-align: center;
   }
+}
+
+.errorPassword {
+  margin-top: -23px;
+  margin-bottom: 7px;
+  color: #ff5959;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.14px;
 }

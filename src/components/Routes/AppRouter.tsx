@@ -1,17 +1,52 @@
+import { useSelector } from "react-redux";
 import LoginMain from "../7. Login/LoginMain";
 import SearchMain from "../8. Search/SearchMain";
 import ResultPage from "../9. ResultPage/ResultPage";
 import App from "./App";
-import { Routes, BrowserRouter, Route } from "react-router-dom";
+import { Routes, BrowserRouter, Route, Navigate } from "react-router-dom";
+import { TypeUserInStore } from "../store/userSlice";
 
 function AppRouter() {
+  const currentUserInStore: TypeUserInStore = useSelector(
+    (state) => state.user
+  );
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<App />} path="/" />
+        <Route
+          element={
+            currentUserInStore.companyLimit !== 0 ||
+            currentUserInStore.usedCompanyCount !== 0 ? (
+              <App />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+          path="/main"
+        />
         <Route element={<LoginMain />} path="/login" />
-        <Route element={<SearchMain />} path="/search" />
-        <Route element={<ResultPage />} path="/result" />
+        <Route
+          element={
+            currentUserInStore.companyLimit !== 0 ||
+            currentUserInStore.usedCompanyCount !== 0 ? (
+              <SearchMain />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+          path="/search"
+        />
+        <Route
+          element={
+            currentUserInStore.companyLimit !== 0 ||
+            currentUserInStore.usedCompanyCount !== 0 ? (
+              <ResultPage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+          path="/results"
+        />
       </Routes>
     </BrowserRouter>
   );

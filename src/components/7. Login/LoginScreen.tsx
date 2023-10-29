@@ -5,7 +5,7 @@ import facebook from "./imgs/facebook.svg";
 import yandex from "./imgs/yandex.svg";
 import keyImg from "./imgs/keyImg.svg";
 import { useState } from "react";
-import useCustomHook from "../LoginLogic/useCustomHook";
+import useCustomHook from "../Logic/useCustomHook";
 const LoginScreen = () => {
   const { loaderUserAccount, logInAccountHandleClick } = useCustomHook();
   const [userInfo, setUserInfo] = useState({

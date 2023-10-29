@@ -9,3 +9,12 @@ export const DateToYMDNow = () => {
   console.log("🚀 ~ file: DateToYYMMDD.ts:6 ~ DateToYMD ~ day:", day);
   console.log("🚀 ~ file: DateToYYMMDD.ts:4 ~ dateToYMD ~ dateArr:", year);
 };
+
+export const CompareDates = (dateOfStart, dateOfEnd) => {
+  if (dateOfStart === "" && dateOfEnd === "") {
+    return false;
+  }
+  const dateStart = new Date(dateOfStart);
+  const dateEnd = new Date(dateOfEnd);
+  return dateStart >= dateEnd;
+};

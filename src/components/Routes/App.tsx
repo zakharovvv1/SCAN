@@ -3,7 +3,7 @@ import Main from "../Main/Main";
 import Footer from "../05. Footer/Footer";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
-import useCustomHook from "../LoginLogic/useCustomHook";
+import useCustomHook from "../Logic/useCustomHook";
 import GlobalLoader from "../GlobalLoader/GlobalLoader";
 function App() {
   const { loaderUserAccount } = useCustomHook();

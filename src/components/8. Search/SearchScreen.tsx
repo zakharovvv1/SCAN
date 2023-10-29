@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import formRightImg from "./imgs/formRightImg.svg";
-import { DateToYMDNow } from "./DateToYYMMDD";
+import { CompareDates, DateToYMDNow } from "./DateToYYMMDD";
+import useCustomHook from "../Logic/useCustomHook";
 const SearchScreen = () => {
+  const { searchHandleClick } = useCustomHook();
+  console.log(
+    "🚀 ~ file: SearchScreen.tsx:8 ~ SearchScreen ~ searchHandleClick:",
+    searchHandleClick
+  );
+  console.log("Перерисовка компонента");
   const ref = useRef(null);
   const refItem = useRef(null);
   const refInputStart = useRef(null);
@@ -27,22 +34,27 @@ const SearchScreen = () => {
       end: "",
     },
   });
-  console.log(
-    "🚀 ~ file: SearchScreen.tsx:29 ~ SearchScreen ~ checkboxState:",
-    checkboxState.searchRange
-  );
   const isVisibleErrorStateForDocumentCount =
     Number(checkboxState.countOfDocumentsInOut) > 1000 ||
     Number(checkboxState.countOfDocumentsInOut) <= 0;
+  const compareDatesBoolean = CompareDates(
+    checkboxState.searchRange.start,
+    checkboxState.searchRange.end
+  );
+  const btnSearchToogle =
+    checkboxState.INNOfCompany.length !== 10 ||
+    isVisibleErrorStateForDocumentCount ||
+    compareDatesBoolean;
 
   useEffect(() => {
-    document.addEventListener("click", (event) => {
+    const onClick = (event) => {
       event.stopPropagation();
       const typeOfInputsForDateStart =
         checkboxState.searchRange.start === "" ? "text" : "date";
       const typeOfInputsForDateEnd =
         checkboxState.searchRange.end === "" ? "text" : "date";
       if (
+        checkboxState.tonalSelectVision &&
         !ref.current.contains(event.target) &&
         !refInputEnd.current.contains(event.target) &&
         !refInputStart.current.contains(event.target)
@@ -56,7 +68,11 @@ const SearchScreen = () => {
           };
         });
       }
-    });
+    };
+    document.addEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("click", onClick);
+    };
   }, [checkboxState.searchRange.end, checkboxState.searchRange.start]);
 
   return (
@@ -184,11 +200,22 @@ const SearchScreen = () => {
                 }}
                 ref={refInputStart}
                 type={checkboxState.typeOfInputsStart}
-                className={styles.searchSelect + " " + styles.range}
+                className={
+                  compareDatesBoolean
+                    ? styles.searchSelect +
+                      " " +
+                      styles.range +
+                      " " +
+                      styles.errorDateInput
+                    : styles.searchSelect + " " + styles.range
+                }
                 name="dateOfStart"
                 id=""
                 max={dateNow}
                 min="2010-01-01"
+                onKeyDown={(event) => {
+                  event.preventDefault();
+                }}
                 onChange={(e) => {
                   setCheckboxState((prev) => {
                     return {
@@ -211,11 +238,22 @@ const SearchScreen = () => {
                 }}
                 ref={refInputEnd}
                 type={checkboxState.typeOfInputsEnd}
-                className={styles.searchSelect + " " + styles.range}
+                className={
+                  compareDatesBoolean
+                    ? styles.searchSelect +
+                      " " +
+                      styles.range +
+                      " " +
+                      styles.errorDateInput
+                    : styles.searchSelect + " " + styles.range
+                }
                 name=""
                 id=""
                 max={dateNow}
                 min="2010-01-01"
+                onKeyDown={(event) => {
+                  event.preventDefault();
+                }}
                 onChange={(e) => {
                   setCheckboxState((prev) => {
                     return {
@@ -231,6 +269,9 @@ const SearchScreen = () => {
                 placeholder="Дата конца"
               ></input>
             </div>
+            {compareDatesBoolean && (
+              <div className={styles.dateError}>Введите корректные данные</div>
+            )}
           </div>
 
           <div className={styles.formRight}>
@@ -399,7 +440,14 @@ const SearchScreen = () => {
               <p className={styles.formRightText}>Включать сводки новостей</p>
             </div>
             <div className={styles.btnSearchContainer}>
-              <button disabled className={styles.btnSearch}>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  searchHandleClick();
+                }}
+                disabled={btnSearchToogle}
+                className={styles.btnSearch}
+              >
                 Поиск
               </button>
               <p className={styles.formWarningBtnText}>

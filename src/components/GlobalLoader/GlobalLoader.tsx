@@ -4,6 +4,7 @@ const GlobalLoader = () => {
   return (
     <div className={styles.loaderContainer}>
       <img src={loaderImg} alt="" />
+      <div>Загружаю данные...</div>
     </div>
   );
 };

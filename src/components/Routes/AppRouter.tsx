@@ -22,7 +22,7 @@ function AppRouter() {
               <Navigate to={"/login"} />
             )
           }
-          path="/main"
+          path="/"
         />
         <Route element={<LoginMain />} path="/login" />
         <Route

@@ -3,11 +3,16 @@ import Main from "../Main/Main";
 import Footer from "../05. Footer/Footer";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
+import useCustomHook from "../LoginLogic/useCustomHook";
+import GlobalLoader from "../GlobalLoader/GlobalLoader";
 function App() {
+  const { loaderUserAccount } = useCustomHook();
+
   return (
     <>
       <Header />
-      <Main />
+      {loaderUserAccount ? <GlobalLoader /> : <Main />}
+
       <Footer />
     </>
   );

@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
+import { useState } from "react";
 import { userSlice } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-
 type userInfo = {
   login: string;
   password: string;
@@ -10,13 +9,11 @@ type userInfo = {
 
 const useCustomHook = () => {
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
+
   const [isICanSignIn, setSsICanSignIn] = useState(true);
   const tokenInLocalStorage = localStorage.getItem("token");
   const currentUserInStore = useSelector((state) => state.user);
-  console.log(
-    "🚀 ~ file: useCustomHook.tsx:15 ~ useCustomHook ~ currentUserInStore:",
-    currentUserInStore
-  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const logInWithToken = async (token: string) => {
@@ -36,9 +33,9 @@ const useCustomHook = () => {
       dispatch(userSlice.actions.setUser(accountInfo));
       setLoaderUserAccount(false);
       navigate("/search");
-      console.log(accountInfo);
     } catch (err) {
-      console.log(err);
+      setLoaderUserAccount(false);
+      navigate("/login");
     }
   };
   if (tokenInLocalStorage && isICanSignIn) {
@@ -79,13 +76,8 @@ const useCustomHook = () => {
         dispatch(userSlice.actions.setUser(accountInfo));
         setLoaderUserAccount(false);
         navigate("/search");
-        console.log(accountInfo);
-      } catch (err) {
-        console.log(err);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+      } catch (err) {}
+    } catch (err) {}
   };
 
   return { loaderUserAccount, logInAccountHandleClick };

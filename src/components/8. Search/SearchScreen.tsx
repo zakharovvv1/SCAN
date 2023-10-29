@@ -1,6 +1,64 @@
+import { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import formRightImg from "./imgs/formRightImg.svg";
+import { DateToYMDNow } from "./DateToYYMMDD";
 const SearchScreen = () => {
+  const ref = useRef(null);
+  const refItem = useRef(null);
+  const refInputStart = useRef(null);
+  const refInputEnd = useRef(null);
+  const dateNow = DateToYMDNow();
+  const [checkboxState, setCheckboxState] = useState({
+    reason: false,
+    mentions: false,
+    mainRole: false,
+    publicWithRisk: false,
+    turnOnNews: false,
+    turnOnCalendars: false,
+    turnOnReports: false,
+    INNOfCompany: "",
+    tonal: "Любая",
+    tonalSelectVision: false,
+    countOfDocumentsInOut: "",
+    typeOfInputsStart: "text",
+    typeOfInputsEnd: "text",
+    searchRange: {
+      start: "",
+      end: "",
+    },
+  });
+  console.log(
+    "🚀 ~ file: SearchScreen.tsx:29 ~ SearchScreen ~ checkboxState:",
+    checkboxState.searchRange
+  );
+  const isVisibleErrorStateForDocumentCount =
+    Number(checkboxState.countOfDocumentsInOut) > 1000 ||
+    Number(checkboxState.countOfDocumentsInOut) <= 0;
+
+  useEffect(() => {
+    document.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const typeOfInputsForDateStart =
+        checkboxState.searchRange.start === "" ? "text" : "date";
+      const typeOfInputsForDateEnd =
+        checkboxState.searchRange.end === "" ? "text" : "date";
+      if (
+        !ref.current.contains(event.target) &&
+        !refInputEnd.current.contains(event.target) &&
+        !refInputStart.current.contains(event.target)
+      ) {
+        setCheckboxState((prev) => {
+          return {
+            ...prev,
+            tonalSelectVision: false,
+            typeOfInputsEnd: typeOfInputsForDateEnd,
+            typeOfInputsStart: typeOfInputsForDateStart,
+          };
+        });
+      }
+    });
+  }, [checkboxState.searchRange.end, checkboxState.searchRange.start]);
+
   return (
     <section className={styles.search}>
       <h1 className={styles.searchTitle}>
@@ -15,90 +73,328 @@ const SearchScreen = () => {
           <div className={styles.formLeft}>
             <p className={styles.formText}>ИНН компании*</p>
             <input
-              className={styles.inputItem}
+              className={
+                checkboxState.INNOfCompany.length !== 10
+                  ? styles.inputItemError
+                  : styles.inputItem
+              }
               placeholder="10 цифр"
-              type="text"
+              type="number"
               name=""
               id=""
+              onChange={(e) => {
+                setCheckboxState((prev) => {
+                  return { ...prev, INNOfCompany: e.target.value };
+                });
+              }}
+              value={checkboxState.INNOfCompany}
             />
+            {checkboxState.INNOfCompany.length !== 10 &&
+              checkboxState.INNOfCompany.length > 0 && (
+                <p className={styles.INNOfCompanyError}>
+                  Введите корректные данные
+                </p>
+              )}
             <p className={styles.formText}>Тональность</p>
-            <select
-              defaultValue="Любая"
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.target;
+                if (e.target !== refItem.current) {
+                  setCheckboxState((prev) => {
+                    return { ...prev, tonalSelectVision: true };
+                  });
+                }
+              }}
               className={styles.searchSelect}
-              name=""
+              ref={ref}
               id=""
-            >
-              <option value="Любая">Любая</option>
-            </select>
+            ></button>
+            <div className={styles.tonalItem}>{checkboxState.tonal}</div>
+            {checkboxState.tonalSelectVision && (
+              <div className={styles.tonalAllPosition}>
+                <div
+                  onClick={() => {
+                    setCheckboxState((prev) => {
+                      return {
+                        ...prev,
+                        tonalSelectVision: false,
+                        tonal: "Любая",
+                      };
+                    });
+                  }}
+                  className={styles.tonalAllPositionItem}
+                >
+                  Любая
+                </div>
+                <div
+                  onClick={() => {
+                    setCheckboxState((prev) => {
+                      return {
+                        ...prev,
+                        tonal: "Другая",
+                        tonalSelectVision: false,
+                      };
+                    });
+                  }}
+                  className={styles.tonalAllPositionItem}
+                  ref={refItem}
+                >
+                  Другая
+                </div>
+              </div>
+            )}
             <p className={styles.formText}>Количество документов в выдаче*</p>
             <input
-              className={styles.inputItem + " " + styles.inputItemMode}
+              className={
+                isVisibleErrorStateForDocumentCount &&
+                checkboxState.countOfDocumentsInOut !== ""
+                  ? styles.inputItemError
+                  : styles.inputItem
+              }
               placeholder="От 1 до 1000"
-              type="text"
+              type="number"
               name=""
               id=""
+              onChange={(e) => {
+                setCheckboxState((prev) => {
+                  return {
+                    ...prev,
+                    countOfDocumentsInOut: e.target.value,
+                  };
+                });
+              }}
+              value={checkboxState.countOfDocumentsInOut}
             />
+            {isVisibleErrorStateForDocumentCount &&
+              checkboxState.countOfDocumentsInOut !== "" && (
+                <p className={styles.countOfDocumentsInOutError}>
+                  Обязательное поле
+                </p>
+              )}
             <p className={styles.formText + " " + styles.formTextRange}>
               Диапазон поиска*
             </p>
             <div className={styles.rangeContainer}>
-              <select
-                defaultValue="Любая"
+              <input
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, typeOfInputsStart: "date" };
+                  });
+                }}
+                ref={refInputStart}
+                type={checkboxState.typeOfInputsStart}
+                className={styles.searchSelect + " " + styles.range}
+                name="dateOfStart"
+                id=""
+                max={dateNow}
+                min="2010-01-01"
+                onChange={(e) => {
+                  setCheckboxState((prev) => {
+                    return {
+                      ...prev,
+                      searchRange: {
+                        ...prev.searchRange,
+                        start: e.target.value,
+                      },
+                    };
+                  });
+                }}
+                value={checkboxState.searchRange.start}
+                placeholder="Дата начала"
+              ></input>
+              <input
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, typeOfInputsEnd: "date" };
+                  });
+                }}
+                ref={refInputEnd}
+                type={checkboxState.typeOfInputsEnd}
                 className={styles.searchSelect + " " + styles.range}
                 name=""
                 id=""
-              >
-                <option value="Любая">Дата начала</option>
-                <option value="Любая">Любая</option>
-              </select>
-              <select
-                defaultValue="Любая"
-                className={styles.searchSelect + " " + styles.range}
-                name=""
-                id=""
-              >
-                <option value="Любая">Дата конца</option>
-                <option value="Любая">Любая</option>
-              </select>
+                max={dateNow}
+                min="2010-01-01"
+                onChange={(e) => {
+                  setCheckboxState((prev) => {
+                    return {
+                      ...prev,
+                      searchRange: {
+                        ...prev.searchRange,
+                        end: e.target.value,
+                      },
+                    };
+                  });
+                }}
+                value={checkboxState.searchRange.end}
+                placeholder="Дата конца"
+              ></input>
             </div>
           </div>
 
           <div className={styles.formRight}>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.reason
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, reason: !prev.reason };
+                  });
+                }}
+                className={
+                  checkboxState.reason
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>
                 Признак максимальной полноты
               </p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.mentions
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, mentions: !prev.mentions };
+                  });
+                }}
+                className={
+                  checkboxState.mentions
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>
                 Упоминания в бизнес-контексте
               </p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.mainRole
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, mainRole: !prev.mainRole };
+                  });
+                }}
+                className={
+                  checkboxState.mainRole
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>Главная роль в публикации</p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.publicWithRisk
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, publicWithRisk: !prev.publicWithRisk };
+                  });
+                }}
+                className={
+                  checkboxState.publicWithRisk
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>
                 Публикации только с риск-факторами
               </p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.turnOnNews
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, turnOnNews: !prev.turnOnNews };
+                  });
+                }}
+                className={
+                  checkboxState.turnOnNews
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>
                 Включать технические новости рынков
               </p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.turnOnCalendars
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, turnOnCalendars: !prev.turnOnCalendars };
+                  });
+                }}
+                className={
+                  checkboxState.turnOnCalendars
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>
                 Включать анонсы и календари
               </p>
             </div>
-            <div className={styles.formRightItemContainer}>
+            <div
+              className={
+                checkboxState.turnOnReports
+                  ? styles.formRightItemContainer
+                  : styles.formRightItemContainerFalse
+              }
+            >
+              <div
+                onClick={() => {
+                  setCheckboxState((prev) => {
+                    return { ...prev, turnOnReports: !prev.turnOnReports };
+                  });
+                }}
+                className={
+                  checkboxState.turnOnReports
+                    ? styles.beforeContainer
+                    : styles.beforeContainerFalse
+                }
+              ></div>
               <input className={styles.formRightInput} type="checkbox" />
               <p className={styles.formRightText}>Включать сводки новостей</p>
             </div>

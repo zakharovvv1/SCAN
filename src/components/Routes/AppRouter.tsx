@@ -10,6 +10,11 @@ function AppRouter() {
   const currentUserInStore: TypeUserInStore = useSelector(
     (state) => state.user
   );
+  const boolean =
+    currentUserInStore.companyLimit !== 0 ||
+    currentUserInStore.usedCompanyCount !== 0;
+  console.log(boolean, "boolean");
+
   return (
     <BrowserRouter>
       <Routes>

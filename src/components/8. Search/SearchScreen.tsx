@@ -11,8 +11,17 @@ const SearchScreen = () => {
   );
   console.log("Перерисовка компонента");
   const ref = useRef(null);
+  console.log("🚀 ~ file: SearchScreen.tsx:14 ~ SearchScreen ~ ref:", ref);
   const refItem = useRef(null);
+  console.log(
+    "🚀 ~ file: SearchScreen.tsx:16 ~ SearchScreen ~ refItem:",
+    refItem
+  );
   const refInputStart = useRef(null);
+  console.log(
+    "🚀 ~ file: SearchScreen.tsx:17 ~ SearchScreen ~ refInputStart:",
+    refInputStart
+  );
   const refInputEnd = useRef(null);
   const dateNow = DateToYMDNow();
   const [checkboxState, setCheckboxState] = useState({
@@ -34,6 +43,10 @@ const SearchScreen = () => {
       end: "",
     },
   });
+  console.log(
+    "🚀 ~ file: SearchScreen.tsx:37 ~ SearchScreen ~ checkboxState:",
+    checkboxState.searchRange
+  );
   const isVisibleErrorStateForDocumentCount =
     Number(checkboxState.countOfDocumentsInOut) > 1000 ||
     Number(checkboxState.countOfDocumentsInOut) <= 0;
@@ -44,6 +57,8 @@ const SearchScreen = () => {
   const btnSearchToogle =
     checkboxState.INNOfCompany.length !== 10 ||
     isVisibleErrorStateForDocumentCount ||
+    checkboxState.searchRange.start === "" ||
+    checkboxState.searchRange.end === "" ||
     compareDatesBoolean;
 
   useEffect(() => {
@@ -53,8 +68,10 @@ const SearchScreen = () => {
         checkboxState.searchRange.start === "" ? "text" : "date";
       const typeOfInputsForDateEnd =
         checkboxState.searchRange.end === "" ? "text" : "date";
+      if (!ref.current && !refInputEnd.current && !refInputStart.current) {
+        return;
+      }
       if (
-        checkboxState.tonalSelectVision &&
         !ref.current.contains(event.target) &&
         !refInputEnd.current.contains(event.target) &&
         !refInputStart.current.contains(event.target)
@@ -70,10 +87,11 @@ const SearchScreen = () => {
       }
     };
     document.addEventListener("click", onClick);
-    return () => {
-      document.removeEventListener("click", onClick);
-    };
-  }, [checkboxState.searchRange.end, checkboxState.searchRange.start]);
+  }, [
+    checkboxState.searchRange.end,
+    checkboxState.searchRange.start,
+    checkboxState.tonalSelectVision,
+  ]);
 
   return (
     <section className={styles.search}>
@@ -443,7 +461,7 @@ const SearchScreen = () => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  searchHandleClick();
+                  searchHandleClick(checkboxState);
                 }}
                 disabled={btnSearchToogle}
                 className={styles.btnSearch}

@@ -1,24 +1,118 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userSlice } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { searcPublicationsSlice } from "../store/searcPublicationsSlice";
+import dateFormat from "dateformat";
+import dateformat from "dateformat";
 type userInfo = {
   login: string;
   password: string;
 };
 
+type TypeSearchParams = {
+  reason: boolean;
+  mentions: boolean;
+  mainRole: boolean;
+  publicWithRisk: boolean;
+  turnOnNews: boolean;
+  turnOnCalendars: boolean;
+  turnOnReports: boolean;
+  INNOfCompany: string;
+  tonal: string;
+  tonalSelectVision: boolean;
+  countOfDocumentsInOut: string;
+  searchRange: {
+    start: string;
+    end: string;
+  };
+};
+
 const useCustomHook = () => {
-  const [loaderUserAccount, setLoaderUserAccount] = useState(false);
-
-  const [isICanSignIn, setSsICanSignIn] = useState(true);
-  const tokenInLocalStorage = localStorage.getItem("token");
-  const currentUserInStore = useSelector((state) => state.user);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userInfo = useSelector((state) => state.user);
+  const documentsPublications = useSelector(
+    (state) => state.publications.documetsPublications
+  );
+  const dataHistograms = useSelector(
+    (state) => state.publications.dataHistograms
+  );
+
+  if (documentsPublications !== null && dataHistograms !== null) {
+    const dataHistogramsDate = dataHistograms[0].data;
+    console.log(
+      "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ dataHistogramsDate:",
+      dataHistogramsDate
+    );
+    const sortDataHistogramsByDate = [...dataHistogramsDate].sort((a, b) =>
+      a.date > b.date ? 1 : -1
+    );
+    const sortDataHistogramsOnlyDatesToLocalFormat =
+      sortDataHistogramsByDate.map((el) => {
+        return {
+          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
+          value: el.value,
+        };
+      });
+    console.log(
+      "🚀 ~ file: useCustomHook.tsx:50 ~ sortDataHistogramsOnlyDatesToLocalFormat ~ sortDataHistogramsOnlyDatesToLocalFormat:",
+      sortDataHistogramsOnlyDatesToLocalFormat
+    );
+    const sortDocumentsbyDate = [...documentsPublications].sort((a, b) =>
+      a.ok.issueDate > b.ok.issueDate ? 1 : -1
+    );
+    dispatch(
+      searcPublicationsSlice.actions.setSortedDatesForDataHistograms(
+        sortDataHistogramsOnlyDatesToLocalFormat
+      )
+    );
+    console.log(sortDataHistogramsByDate, "Остортированные даты");
+    console.log(sortDocumentsbyDate, "Остортированные документы");
+  }
+
+  console.log(
+    "🚀 ~ file: useCustomHook.tsx:33 ~ useCustomHook ~ documentsPublications:",
+    documentsPublications
+  );
+
+  const [loaderUserAccount, setLoaderUserAccount] = useState(false);
+  const [loaderPublications, setLoaderPublications] = useState(false);
+
+  const [isICanSignIn, setSsICanSignIn] = useState(true);
+  console.log(
+    "🚀 ~ file: useCustomHook.tsx:35 ~ useCustomHook ~ isICanSignIn:",
+    isICanSignIn
+  );
+  const tokenInLocalStorage = localStorage.getItem("token");
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    if (currentPath === "/login") {
+      navigate("/");
+    }
+    console.log(
+      "🚀 ~ file: useCustomHook.tsx:45 ~ useEffect ~ currentPath:",
+      currentPath
+    );
+    if (
+      tokenInLocalStorage &&
+      isICanSignIn &&
+      !userInfo.companyLimit &&
+      !userInfo.usedCompanyCount
+    ) {
+      try {
+        logInWithToken(tokenInLocalStorage);
+        setSsICanSignIn(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
   const logInWithToken = async (token: string) => {
-    setLoaderUserAccount(true);
     try {
+      setLoaderUserAccount(true);
       const res = await fetch(
         "https://gateway.scan-interfax.ru/api/v1/account/info",
         {
@@ -32,20 +126,12 @@ const useCustomHook = () => {
       // Сохранил пользователя в сторе
       dispatch(userSlice.actions.setUser(accountInfo));
       setLoaderUserAccount(false);
-      navigate("/search");
     } catch (err) {
       setLoaderUserAccount(false);
       navigate("/login");
     }
   };
-  if (tokenInLocalStorage && isICanSignIn) {
-    try {
-      logInWithToken(tokenInLocalStorage);
-      setSsICanSignIn(false);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
   const logInAccountHandleClick = async (user: userInfo): Promise<any> => {
     setLoaderUserAccount(true);
     try {
@@ -79,7 +165,9 @@ const useCustomHook = () => {
       } catch (err) {}
     } catch (err) {}
   };
-  const searchHandleClick = async () => {
+  const searchHandleClick = async (searchParams: TypeSearchParams) => {
+    setLoaderPublications(true);
+    navigate("/results");
     try {
       const res = await fetch(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
@@ -91,8 +179,8 @@ const useCustomHook = () => {
           },
           body: JSON.stringify({
             issueDateInterval: {
-              startDate: "2019-01-01T00:00:00+03:00",
-              endDate: "2022-08-31T23:59:59+03:00",
+              startDate: `${searchParams.searchRange.start}T00:00:00+03:00`,
+              endDate: `${searchParams.searchRange.end}T23:59:59+03:00`,
             },
             searchContext: {
               targetSearchEntitiesContext: {
@@ -101,14 +189,14 @@ const useCustomHook = () => {
                     type: "company",
                     sparkId: null,
                     entityId: null,
-                    inn: 7710137066,
-                    maxFullness: true,
-                    inBusinessNews: null,
+                    inn: searchParams.INNOfCompany,
+                    maxFullness: searchParams.reason,
+                    inBusinessNews: searchParams.mentions,
                   },
                 ],
-                onlyMainRole: true,
+                onlyMainRole: searchParams.mainRole,
                 tonality: "any",
-                onlyWithRiskFactors: false,
+                onlyWithRiskFactors: searchParams.publicWithRisk,
                 riskFactors: {
                   and: [],
                   or: [],
@@ -133,12 +221,12 @@ const useCustomHook = () => {
               excludedSourceGroups: [],
             },
             attributeFilters: {
-              excludeTechNews: true,
-              excludeAnnouncements: true,
-              excludeDigests: true,
+              excludeTechNews: searchParams.turnOnNews,
+              excludeAnnouncements: searchParams.turnOnCalendars,
+              excludeDigests: searchParams.turnOnReports,
             },
             similarMode: "duplicates",
-            limit: 1000,
+            limit: Number(searchParams.countOfDocumentsInOut),
             sortType: "sourceInfluence",
             sortDirectionType: "desc",
             intervalType: "month",
@@ -147,12 +235,130 @@ const useCustomHook = () => {
         }
       );
       const result = await res.json();
+      objectSearch(searchParams);
+      dispatch(searcPublicationsSlice.actions.setDataHistograms(result));
       console.log(result, "Ответ от сервера");
     } catch (err) {
       console.log(err);
     }
   };
+  const objectSearch = async (searchParams: TypeSearchParams) => {
+    try {
+      const res = await fetch(
+        "https://gateway.scan-interfax.ru/api/v1/objectsearch",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${tokenInLocalStorage}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            issueDateInterval: {
+              startDate: `${searchParams.searchRange.start}T00:00:00+03:00`,
+              endDate: `${searchParams.searchRange.end}T23:59:59+03:00`,
+            },
+            searchContext: {
+              targetSearchEntitiesContext: {
+                targetSearchEntities: [
+                  {
+                    type: "company",
+                    sparkId: null,
+                    entityId: null,
+                    inn: searchParams.INNOfCompany,
+                    maxFullness: searchParams.reason,
+                    inBusinessNews: searchParams.mentions,
+                  },
+                ],
+                onlyMainRole: searchParams.mainRole,
+                tonality: "any",
+                onlyWithRiskFactors: searchParams.publicWithRisk,
+                riskFactors: {
+                  and: [],
+                  or: [],
+                  not: [],
+                },
+                themes: {
+                  and: [],
+                  or: [],
+                  not: [],
+                },
+              },
+              themesFilter: {
+                and: [],
+                or: [],
+                not: [],
+              },
+            },
+            searchArea: {
+              includedSources: [],
+              excludedSources: [],
+              includedSourceGroups: [],
+              excludedSourceGroups: [],
+            },
+            attributeFilters: {
+              excludeTechNews: searchParams.turnOnNews,
+              excludeAnnouncements: searchParams.turnOnCalendars,
+              excludeDigests: searchParams.turnOnReports,
+            },
+            similarMode: "duplicates",
+            limit: Number(searchParams.countOfDocumentsInOut),
+            sortType: "sourceInfluence",
+            sortDirectionType: "desc",
+            intervalType: "month",
+            histogramTypes: ["totalDocuments", "riskFactors"],
+          }),
+        }
+      );
+      const result = await res.json();
+      const arrIdsOfPublications = result.items.map((el) => {
+        return el.encodedId;
+      });
+      dispatch(
+        searcPublicationsSlice.actions.setIDsOfPublicationsObjectSearch(
+          arrIdsOfPublications
+        )
+      );
 
-  return { loaderUserAccount, logInAccountHandleClick, searchHandleClick };
+      console.log(arrIdsOfPublications, "Массив публикаций");
+      console.log(result, "Cписок найденных публикаций");
+      documentsSearch(arrIdsOfPublications);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const documentsSearch = async (arrIdsOfPublications) => {
+    try {
+      console.log(arrIdsOfPublications, "Входящий массив публикаций");
+      const res = await fetch(
+        "https://gateway.scan-interfax.ru/api/v1/documents",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${tokenInLocalStorage}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ids: arrIdsOfPublications,
+          }),
+        }
+      );
+      console.log(res, "Запрос...");
+      const result = await res.json();
+      dispatch(searcPublicationsSlice.actions.setDocumetsPublications(result));
+
+      // dispatch()
+      setLoaderPublications(false);
+      console.log("Публикации", result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return {
+    loaderUserAccount,
+    logInAccountHandleClick,
+    searchHandleClick,
+    loaderPublications,
+  };
 };
 export default useCustomHook;

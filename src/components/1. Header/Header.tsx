@@ -4,17 +4,24 @@ import styles from "./Header.module.scss";
 import avatar from "./Imgs/avatar.png";
 import logo from "./Imgs/Logo.svg";
 import { TypeUserInStore } from "../store/userSlice";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const currentUserInStore: TypeUserInStore = useSelector(
     (state) => state.user
   );
+  const navigate = useNavigate();
   console.log(
     "🚀 ~ file: Header.tsx:11 ~ Header ~ currentUserInStore:",
     currentUserInStore
   );
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
+      <div
+        onClick={() => {
+          navigate("/");
+        }}
+        className={styles.logo}
+      >
         <img src={logo} alt="logo" />
       </div>
       <ul className={styles.ul}>

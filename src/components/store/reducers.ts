@@ -1,10 +1,12 @@
 import {
-    combineReducers,
-    getDefaultMiddleware,
-    configureStore,
-  } from "@reduxjs/toolkit";
+  combineReducers,
+  getDefaultMiddleware,
+  configureStore,
+} from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
+import publicationsReducer from "./searcPublicationsSlice";
 
-export const rootReducer =  combineReducers({ 
-    user : userReducer
-})
+export const rootReducer = combineReducers({
+  user: userReducer,
+  publications: publicationsReducer,
+});

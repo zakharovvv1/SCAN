@@ -149,3 +149,77 @@
 .tableArrowRight {
   margin-left: 10px;
 }
+
+.loaderPublicationsText {
+  color: black;
+}
+
+.documentsTitle {
+  margin-top: 107px;
+  margin-bottom: 58px;
+  text-align: left;
+  color: #000;
+  font-family: Ferry;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+
+.documentsContainer {
+  display: flex;
+}
+.documentItemDate {
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.documentItemInfo {
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  text-decoration-line: underline;
+}
+
+.documentsMainText {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+.documentReadIn {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  border-radius: 5px;
+  background: #7ce3e1;
+  padding: 14px 30px;
+  border: 0px;
+}
+
+.wordsCount {
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}

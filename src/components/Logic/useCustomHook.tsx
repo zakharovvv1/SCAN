@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { userSlice } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { searcPublicationsSlice } from "../store/searcPublicationsSlice";
-import dateFormat from "dateformat";
 import dateformat from "dateformat";
 type userInfo = {
   login: string;
@@ -41,7 +40,7 @@ const useCustomHook = () => {
   );
 
   if (documentsPublications !== null && dataHistograms !== null) {
-    const dataHistogramsDate = dataHistograms[0].data;
+    const dataHistogramsDate = dataHistograms.data[0].data;
     console.log(
       "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ dataHistogramsDate:",
       dataHistogramsDate

@@ -3,8 +3,15 @@ import resultHeroImg from "./imgs/resultHeroImg.svg";
 import arrowLeftTable from "./imgs/arrowLeftTable.svg";
 import arrowRightTable from "./imgs/arrowRightTable.svg";
 import useCustomHook from "../Logic/useCustomHook";
+import { useSelector } from "react-redux";
 const ResultScreen = () => {
   const { loaderPublications } = useCustomHook();
+  const dateInfoForTable = useSelector((state) => state.publications);
+  console.log(
+    "🚀 ~ file: ResultScreen.tsx:10 ~ ResultScreen ~ dateInfoForTable:",
+    dateInfoForTable
+  );
+
   return (
     <section className={styles.resultSection}>
       <div className={styles.resultHero}>

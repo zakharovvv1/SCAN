@@ -18,7 +18,7 @@ export const searcPublicationsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setDataHistograms(state, action) {
-      state.dataHistograms = action.payload.data;
+      state.dataHistograms = action.payload;
     },
     setIDsOfPublicationsObjectSearch(state, action) {
       state.IDsOfPublicationsObjectSearch = action.payload;

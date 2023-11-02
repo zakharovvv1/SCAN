@@ -5,10 +5,7 @@ import { CompareDates, DateToYMDNow } from "./DateToYYMMDD";
 import useCustomHook from "../Logic/useCustomHook";
 const SearchScreen = () => {
   const { searchHandleClick } = useCustomHook();
-  console.log(
-    "🚀 ~ file: SearchScreen.tsx:8 ~ SearchScreen ~ searchHandleClick:",
-    searchHandleClick
-  );
+
   console.log("Перерисовка компонента");
   const ref = useRef(null);
   console.log("🚀 ~ file: SearchScreen.tsx:14 ~ SearchScreen ~ ref:", ref);

@@ -39,47 +39,10 @@ const useCustomHook = () => {
     (state) => state.publications.dataHistograms
   );
 
-  if (documentsPublications !== null && dataHistograms !== null) {
-    const dataHistogramsDate = dataHistograms.data[0].data;
-    console.log(
-      "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ dataHistogramsDate:",
-      dataHistogramsDate
-    );
-    const sortDataHistogramsByDate = [...dataHistogramsDate].sort((a, b) =>
-      a.date > b.date ? 1 : -1
-    );
-    const sortDataHistogramsOnlyDatesToLocalFormat =
-      sortDataHistogramsByDate.map((el) => {
-        return {
-          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
-          value: el.value,
-        };
-      });
-    console.log(
-      "🚀 ~ file: useCustomHook.tsx:50 ~ sortDataHistogramsOnlyDatesToLocalFormat ~ sortDataHistogramsOnlyDatesToLocalFormat:",
-      sortDataHistogramsOnlyDatesToLocalFormat
-    );
-    const sortDocumentsbyDate = [...documentsPublications].sort((a, b) =>
-      a.ok.issueDate > b.ok.issueDate ? 1 : -1
-    );
-    dispatch(
-      searcPublicationsSlice.actions.setSortedDatesForDataHistograms(
-        sortDataHistogramsOnlyDatesToLocalFormat
-      )
-    );
-    console.log(sortDataHistogramsByDate, "Остортированные даты");
-    console.log(sortDocumentsbyDate, "Остортированные документы");
-  }
-
-  console.log(
-    "🚀 ~ file: useCustomHook.tsx:33 ~ useCustomHook ~ documentsPublications:",
-    documentsPublications
-  );
-
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
   const [loaderPublications, setLoaderPublications] = useState(false);
 
-  const [isICanSignIn, setSsICanSignIn] = useState(true);
+  const [isICanSignIn, setICanSignIn] = useState(true);
   console.log(
     "🚀 ~ file: useCustomHook.tsx:35 ~ useCustomHook ~ isICanSignIn:",
     isICanSignIn
@@ -87,14 +50,6 @@ const useCustomHook = () => {
   const tokenInLocalStorage = localStorage.getItem("token");
 
   useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (currentPath === "/login") {
-      navigate("/");
-    }
-    console.log(
-      "🚀 ~ file: useCustomHook.tsx:45 ~ useEffect ~ currentPath:",
-      currentPath
-    );
     if (
       tokenInLocalStorage &&
       isICanSignIn &&
@@ -103,12 +58,48 @@ const useCustomHook = () => {
     ) {
       try {
         logInWithToken(tokenInLocalStorage);
-        setSsICanSignIn(false);
       } catch (err) {
+        navigate("login");
         console.log(err);
       }
     }
-  }, []);
+  }, [isICanSignIn]);
+
+  useEffect(() => {
+    if (documentsPublications !== null && dataHistograms !== null) {
+      const dataHistogramsDate = dataHistograms.data[0].data;
+      const dataRisksDate = dataHistograms.data[1].data;
+      console.log(
+        "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ dataHistogramsDate:",
+        dataHistogramsDate
+      );
+      const sortDataHistogramsByDate = [...dataHistogramsDate].sort((a, b) =>
+        a.date > b.date ? 1 : -1
+      );
+      const sortDataRisksDateByDate = [...dataRisksDate].sort((a, b) =>
+        a.date > b.date ? 1 : -1
+      );
+      const sortDataHistograms = sortDataHistogramsByDate.map((el) => {
+        return {
+          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
+          value: el.value,
+        };
+      });
+      const sortDataRisksDates = sortDataRisksDateByDate.map((el) => {
+        return {
+          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
+          value: el.value,
+        };
+      });
+
+      dispatch(
+        searcPublicationsSlice.actions.setSortedDatesForDataHistograms({
+          sortDataHistograms,
+          sortDataRisksDates,
+        })
+      );
+    }
+  }, [dataHistograms]);
   const logInWithToken = async (token: string) => {
     try {
       setLoaderUserAccount(true);
@@ -125,7 +116,9 @@ const useCustomHook = () => {
       // Сохранил пользователя в сторе
       dispatch(userSlice.actions.setUser(accountInfo));
       setLoaderUserAccount(false);
+      navigate("/");
     } catch (err) {
+      setICanSignIn(false);
       setLoaderUserAccount(false);
       navigate("/login");
     }
@@ -320,6 +313,7 @@ const useCustomHook = () => {
 
       console.log(arrIdsOfPublications, "Массив публикаций");
       console.log(result, "Cписок найденных публикаций");
+      // ! Сделать отправку запроса с количестов макс 100 arrIdsOfPublications
       documentsSearch(arrIdsOfPublications);
     } catch (err) {
       console.log(err);

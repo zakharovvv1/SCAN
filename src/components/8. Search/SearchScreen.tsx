@@ -41,8 +41,8 @@ const SearchScreen = () => {
     },
   });
   console.log(
-    "🚀 ~ file: SearchScreen.tsx:37 ~ SearchScreen ~ checkboxState:",
-    checkboxState.searchRange
+    "🚀 ~ file: SearchScreen.tsx:37 ~ SearchScreen ~ tonalSelectVision:",
+    checkboxState.tonalSelectVision
   );
   const isVisibleErrorStateForDocumentCount =
     Number(checkboxState.countOfDocumentsInOut) > 1000 ||
@@ -60,18 +60,21 @@ const SearchScreen = () => {
 
   useEffect(() => {
     const onClick = (event) => {
-      event.stopPropagation();
       const typeOfInputsForDateStart =
         checkboxState.searchRange.start === "" ? "text" : "date";
       const typeOfInputsForDateEnd =
         checkboxState.searchRange.end === "" ? "text" : "date";
-      if (!ref.current && !refInputEnd.current && !refInputStart.current) {
-        return;
-      }
+
       if (
-        !ref.current.contains(event.target) &&
-        !refInputEnd.current.contains(event.target) &&
-        !refInputStart.current.contains(event.target)
+        (checkboxState.tonalSelectVision === true &&
+          ref.current &&
+          !ref.current.contains(event.target)) ||
+        (checkboxState.typeOfInputsStart === "date" &&
+          refInputStart &&
+          !refInputStart.current.contains(event.target)) ||
+        (checkboxState.typeOfInputsEnd === "date" &&
+          refInputEnd &&
+          !refInputEnd.current.contains(event.target))
       ) {
         setCheckboxState((prev) => {
           return {
@@ -83,10 +86,13 @@ const SearchScreen = () => {
         });
       }
     };
-    document.addEventListener("click", onClick);
+    window.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
   }, [
-    checkboxState.searchRange.end,
-    checkboxState.searchRange.start,
+    checkboxState.typeOfInputsEnd,
+    checkboxState.typeOfInputsStart,
     checkboxState.tonalSelectVision,
   ]);
 

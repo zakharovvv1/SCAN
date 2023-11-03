@@ -6,11 +6,18 @@ import useCustomHook from "../Logic/useCustomHook";
 import { useSelector } from "react-redux";
 const ResultScreen = () => {
   const { loaderPublications } = useCustomHook();
-  const dateInfoForTable = useSelector((state) => state.publications);
+  const sortDateForTable = useSelector(
+    (state) => state.publications.sortedDatesForDataHistograms
+  );
   console.log(
     "🚀 ~ file: ResultScreen.tsx:10 ~ ResultScreen ~ dateInfoForTable:",
-    dateInfoForTable
+    sortDateForTable
   );
+  const test = sortDateForTable.sortDataHistograms.map((el) => {
+    const pattern = "(d+)/(d+)";
+    return el.date.replace(pattern, "-");
+  });
+  console.log("🚀 ~ file: ResultScreen.tsx:20 ~ test ~ test:", test);
 
   return (
     <section className={styles.resultSection}>

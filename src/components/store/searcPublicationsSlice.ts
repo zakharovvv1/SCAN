@@ -10,7 +10,7 @@ export type TypeDataHistorgams = {
 const initialState: TypeDataHistorgams = {
   dataHistograms: null,
   IDsOfPublicationsObjectSearch: null,
-  documetsPublications: null,
+  documetsPublications: [],
   sortedDatesForDataHistograms: null,
 };
 export const searcPublicationsSlice = createSlice({
@@ -24,7 +24,7 @@ export const searcPublicationsSlice = createSlice({
       state.IDsOfPublicationsObjectSearch = action.payload;
     },
     setDocumetsPublications(state, action) {
-      state.documetsPublications = action.payload;
+      state.documetsPublications.push(action.payload);
     },
     setSortedDatesForDataHistograms(state, action) {
       state.sortedDatesForDataHistograms = action.payload;

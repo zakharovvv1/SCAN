@@ -28,6 +28,7 @@ type TypeSearchParams = {
 };
 
 const useCustomHook = () => {
+  console.log("Рендер кастомного");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -81,13 +82,20 @@ const useCustomHook = () => {
       );
       const sortDataHistograms = sortDataHistogramsByDate.map((el) => {
         return {
-          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
+          date: dateformat(new Date(el.date), "dd/mm/yyyy").replace(
+            /[/]+/g,
+            "."
+          ),
           value: el.value,
         };
       });
+
       const sortDataRisksDates = sortDataRisksDateByDate.map((el) => {
         return {
-          date: dateformat(new Date(el.date), "dd/mm/yyyy"),
+          date: dateformat(new Date(el.date), "dd/mm/yyyy").replace(
+            /[/]+/g,
+            "."
+          ),
           value: el.value,
         };
       });
@@ -99,7 +107,7 @@ const useCustomHook = () => {
         })
       );
     }
-  }, [dataHistograms]);
+  }, [documentsPublications]);
   const logInWithToken = async (token: string) => {
     try {
       setLoaderUserAccount(true);
@@ -154,10 +162,18 @@ const useCustomHook = () => {
         dispatch(userSlice.actions.setUser(accountInfo));
         setLoaderUserAccount(false);
         navigate("/search");
-      } catch (err) {}
-    } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   const searchHandleClick = async (searchParams: TypeSearchParams) => {
+    console.log(
+      "🚀 ~ file: useCustomHook.tsx:173 ~ searchHandleClick ~ searchParams:",
+      searchParams
+    );
     setLoaderPublications(true);
     navigate("/results");
     try {
@@ -311,10 +327,46 @@ const useCustomHook = () => {
         )
       );
 
-      console.log(arrIdsOfPublications, "Массив публикаций");
-      console.log(result, "Cписок найденных публикаций");
-      // ! Сделать отправку запроса с количестов макс 100 arrIdsOfPublications
-      documentsSearch(arrIdsOfPublications);
+      if (arrIdsOfPublications.length > 100) {
+        const getDocumentsByParts = async () => {
+          const resultDocumets = [];
+
+          const arrIds = [...arrIdsOfPublications];
+          let resultIds = [];
+          const countOfFor = arrIdsOfPublications.length / 100;
+          for (let i = 0; i < countOfFor; i++) {
+            let activeIds = arrIds.reduce((acc, el) => {
+              if (!resultIds.includes(el)) acc.push(el);
+              return acc;
+            }, []);
+            resultIds = [...activeIds].splice(0, 100);
+            resultDocumets.push(await documentsSearch(resultIds));
+          }
+          const resultDocumenstOk = resultDocumets.flat().map((el) => el.ok);
+          let one = [];
+          const resultDocumenstOkFiltereed = resultDocumenstOk.reduce(
+            (acc, el) => {
+              if (!acc.find((element) => element.id === el.id)) acc.push(el);
+              else one.push(el);
+              console.log(one, "one");
+              return acc;
+            },
+            []
+          );
+
+          dispatch(
+            searcPublicationsSlice.actions.setDocumetsPublications(
+              resultDocumenstOkFiltereed
+            )
+          );
+        };
+        getDocumentsByParts();
+      } else {
+        const result = await documentsSearch(arrIdsOfPublications);
+        dispatch(
+          searcPublicationsSlice.actions.setDocumetsPublications(result)
+        );
+      }
     } catch (err) {
       console.log(err);
     }
@@ -337,11 +389,7 @@ const useCustomHook = () => {
       );
       console.log(res, "Запрос...");
       const result = await res.json();
-      dispatch(searcPublicationsSlice.actions.setDocumetsPublications(result));
-
-      // dispatch()
-      setLoaderPublications(false);
-      console.log("Публикации", result);
+      return result;
     } catch (error) {
       console.log(error);
     }

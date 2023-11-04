@@ -29,15 +29,15 @@ const SearchScreen = () => {
     turnOnNews: false,
     turnOnCalendars: false,
     turnOnReports: false,
-    INNOfCompany: "",
+    INNOfCompany: "7728551528",
     tonal: "Любая",
     tonalSelectVision: false,
-    countOfDocumentsInOut: "",
+    countOfDocumentsInOut: "1000",
     typeOfInputsStart: "text",
     typeOfInputsEnd: "text",
     searchRange: {
-      start: "",
-      end: "",
+      start: "2020-11-02",
+      end: "2023-11-02",
     },
   });
   console.log(
@@ -64,17 +64,18 @@ const SearchScreen = () => {
         checkboxState.searchRange.start === "" ? "text" : "date";
       const typeOfInputsForDateEnd =
         checkboxState.searchRange.end === "" ? "text" : "date";
-
+      const inputsBoolean =
+        checkboxState.typeOfInputsStart === "date" &&
+        refInputStart &&
+        !refInputStart.current.contains(event.target) &&
+        checkboxState.typeOfInputsEnd === "date" &&
+        refInputEnd &&
+        !refInputEnd.current.contains(event.target);
       if (
-        (checkboxState.tonalSelectVision === true &&
-          ref.current &&
-          !ref.current.contains(event.target)) ||
-        (checkboxState.typeOfInputsStart === "date" &&
-          refInputStart &&
-          !refInputStart.current.contains(event.target)) ||
-        (checkboxState.typeOfInputsEnd === "date" &&
-          refInputEnd &&
-          !refInputEnd.current.contains(event.target))
+        checkboxState.tonalSelectVision === true &&
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        inputsBoolean
       ) {
         setCheckboxState((prev) => {
           return {
@@ -94,6 +95,8 @@ const SearchScreen = () => {
     checkboxState.typeOfInputsEnd,
     checkboxState.typeOfInputsStart,
     checkboxState.tonalSelectVision,
+    checkboxState.searchRange.start,
+    checkboxState.searchRange.end,
   ]);
 
   return (
@@ -466,7 +469,7 @@ const SearchScreen = () => {
                   e.preventDefault();
                   searchHandleClick(checkboxState);
                 }}
-                disabled={btnSearchToogle}
+                // disabled={btnSearchToogle}
                 className={styles.btnSearch}
               >
                 Поиск

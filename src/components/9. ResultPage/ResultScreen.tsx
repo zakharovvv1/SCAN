@@ -4,20 +4,46 @@ import arrowLeftTable from "./imgs/arrowLeftTable.svg";
 import arrowRightTable from "./imgs/arrowRightTable.svg";
 import useCustomHook from "../Logic/useCustomHook";
 import { useSelector } from "react-redux";
+import DocumentBody from "./Document/DocumentBody";
+import { useEffect, useState } from "react";
 const ResultScreen = () => {
   const { loaderPublications } = useCustomHook();
-  const sortDateForTable = useSelector(
+  const [sortedDatesByParts, setSortedDatesByParts] = useState({
+    data: [] as unknown,
+    count: 0,
+  });
+
+  const sortedDatesForDataHistograms = useSelector(
     (state) => state.publications.sortedDatesForDataHistograms
   );
-  console.log(
-    "🚀 ~ file: ResultScreen.tsx:10 ~ ResultScreen ~ dateInfoForTable:",
-    sortDateForTable
+  const documentsPublications = useSelector((state) =>
+    state.publications.documetsPublications.flat(2)
   );
-  const test = sortDateForTable.sortDataHistograms.map((el) => {
-    const pattern = "(d+)/(d+)";
-    return el.date.replace(pattern, "-");
-  });
-  console.log("🚀 ~ file: ResultScreen.tsx:20 ~ test ~ test:", test);
+
+  useEffect(() => {
+    if (sortedDatesForDataHistograms) {
+      const sortDataHistograms =
+        sortedDatesForDataHistograms.sortDataHistograms;
+      if (sortDataHistograms.length > 8) {
+        const sortedDatesByParts = [];
+
+        const arrIds = [...sortDataHistograms];
+        let resultIds = [];
+        const countOfFor = arrIds.length / 8;
+        for (let i = 0; i < countOfFor; i++) {
+          let activeIds = arrIds.reduce((acc, el) => {
+            if (!resultIds.includes(el)) acc.push(el);
+            return acc;
+          }, []);
+          resultIds = [...activeIds].splice(0, 8);
+          sortedDatesByParts.push(resultIds);
+        }
+        setSortedDatesByParts((prev) => {
+          return { ...prev, data: sortedDatesByParts };
+        });
+      }
+    }
+  }, [sortedDatesForDataHistograms]);
 
   return (
     <section className={styles.resultSection}>
@@ -39,55 +65,31 @@ const ResultScreen = () => {
         <h2 className={styles.resultTableTitle}>Общая сводка</h2>
         <p className={styles.resultTableSubtitle}>Найдено 4 221 вариантов</p>
         <div className={styles.resultTableAndArrowContainer}>
-          <img className={styles.tableArrowLeft} src={arrowLeftTable} alt="" />
+          {sortedDatesForDataHistograms &&
+            sortedDatesForDataHistograms.sortDataHistograms.length > 8 && (
+              <img
+                className={styles.tableArrowLeft}
+                src={arrowLeftTable}
+                alt=""
+              />
+            )}
           <div className={styles.resultTable}>
             <div className={styles.resultTableInfo}>
               <p>Период</p>
               <p>Всего</p>
               <p>Риски</p>
             </div>
-            {!loaderPublications ? (
+            {!loaderPublications && sortedDatesByParts.data.length !== 0 ? (
               <>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
-                <div className={styles.resultTableItem}>
-                  <p>10.09.2021</p>
-                  <p>5</p>
-                  <p>0</p>
-                </div>
+                {sortedDatesByParts.data[sortedDatesByParts.count].map((el) => {
+                  return (
+                    <div className={styles.resultTableItem}>
+                      <p>{el.date}</p>
+                      <p>{el.value}</p>
+                      <p>0</p>
+                    </div>
+                  );
+                })}
               </>
             ) : (
               <p className={styles.loaderPublicationsText}>
@@ -95,30 +97,24 @@ const ResultScreen = () => {
               </p>
             )}
           </div>
-          <img
-            className={styles.tableArrowRight}
-            src={arrowRightTable}
-            alt=""
-          />
+          {sortedDatesForDataHistograms &&
+            sortedDatesForDataHistograms.sortDataHistograms.length > 8 && (
+              <img
+                onClick={() => {
+                  setSortedDatesByParts((prev) => {
+                    return { ...prev, count: prev.count + 1 };
+                  });
+                }}
+                className={styles.tableArrowRight}
+                src={arrowRightTable}
+                alt=""
+              />
+            )}
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
-      <div className={styles.documentsContainer}>
-        <div className={styles.documentItem}>
-          <div className={styles.documentsItemDateInfo}>
-            <p className={styles.documentItemDate}></p>
-            <p className={styles.documentItemInfo}></p>
-          </div>
-          <h3 className={styles.documentInfoTitle}></h3>
-          <p className={styles.documentInfoCategory}></p>
-          <div className={styles.documentMainBody}>
-            <img src="" alt="" />
-            <p className={styles.documentsMainText}></p>
-          </div>
-          <button className={styles.documentReadIn}>Читать в источнике</button>
-          <p className={styles.wordsCount}></p>
-        </div>
-      </div>
+      {/* {sortedDatesByParts !== null &&
+        sortedDatesByParts[0].map((el) => <DocumentBody document={el} />)} */}
     </section>
   );
 };

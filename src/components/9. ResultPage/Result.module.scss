@@ -144,11 +144,24 @@
 }
 
 .tableArrowLeft {
-  transform: translateX(-5px);
+  cursor: pointer;
+
+  transform: rotateY(180deg);
   margin-right: 5px;
 }
+
+.tableArrowLeftWithOpacity {
+  @extend .tableArrowLeft;
+  opacity: 0.5;
+}
 .tableArrowRight {
+  cursor: pointer;
   margin-left: 10px;
+}
+
+.tableArrowRightWithOpacity {
+  @extend .tableArrowRight;
+  opacity: 0.5;
 }
 
 .loaderPublicationsText {

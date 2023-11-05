@@ -12,12 +12,13 @@ const ResultScreen = () => {
     data: [] as unknown,
     count: 0,
   });
+  console.log(
+    "🚀 ~ file: ResultScreen.tsx:15 ~ ResultScreen ~ sortedDatesByParts:",
+    sortedDatesByParts
+  );
 
   const sortedDatesForDataHistograms = useSelector(
     (state) => state.publications.sortedDatesForDataHistograms
-  );
-  const documentsPublications = useSelector((state) =>
-    state.publications.documetsPublications.flat(2)
   );
 
   useEffect(() => {
@@ -68,8 +69,21 @@ const ResultScreen = () => {
           {sortedDatesForDataHistograms &&
             sortedDatesForDataHistograms.sortDataHistograms.length > 8 && (
               <img
-                className={styles.tableArrowLeft}
-                src={arrowLeftTable}
+                onClick={() => {
+                  setSortedDatesByParts((prev) => {
+                    if (prev.count === 0) {
+                      return { ...prev, count: 0 };
+                    } else {
+                      return { ...prev, count: prev.count - 1 };
+                    }
+                  });
+                }}
+                className={
+                  sortedDatesByParts.count !== 0
+                    ? styles.tableArrowLeft
+                    : styles.tableArrowLeftWithOpacity
+                }
+                src={arrowRightTable}
                 alt=""
               />
             )}
@@ -102,10 +116,22 @@ const ResultScreen = () => {
               <img
                 onClick={() => {
                   setSortedDatesByParts((prev) => {
-                    return { ...prev, count: prev.count + 1 };
+                    if (prev.count === sortedDatesByParts.data.length - 1) {
+                      return {
+                        ...prev,
+                        count: sortedDatesByParts.data.length - 1,
+                      };
+                    } else {
+                      return { ...prev, count: prev.count + 1 };
+                    }
                   });
                 }}
-                className={styles.tableArrowRight}
+                className={
+                  sortedDatesByParts.count !==
+                  sortedDatesByParts.data.length - 1
+                    ? styles.tableArrowRight
+                    : styles.tableArrowRightWithOpacity
+                }
                 src={arrowRightTable}
                 alt=""
               />
@@ -113,8 +139,8 @@ const ResultScreen = () => {
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
-      {/* {sortedDatesByParts !== null &&
-        sortedDatesByParts[0].map((el) => <DocumentBody document={el} />)} */}
+      {/* {sortedDatesByParts.data !== null &&
+        sortedDatesByParts.map((el) => <DocumentBody document={el} />)} */}
     </section>
   );
 };

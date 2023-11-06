@@ -39,7 +39,7 @@ const useCustomHook = () => {
   const dataHistograms = useSelector(
     (state) => state.publications.dataHistograms
   );
-
+  const [count, setCount] = useState(0);
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
   const [loaderPublications, setLoaderPublications] = useState(false);
 
@@ -318,62 +318,37 @@ const useCustomHook = () => {
         }
       );
       const result = await res.json();
+
       const arrIdsOfPublications = result.items.map((el) => {
         return el.encodedId;
       });
+      let arrIdsOfPublicationsByPart = [];
+      const x = arrIdsOfPublications.length / 10;
+      const size = 10;
+      for (let i = 0; i < Math.ceil(x); i++) {
+        arrIdsOfPublicationsByPart[i] = arrIdsOfPublications.slice(
+          i * size,
+          i * size + size
+        );
+      }
+
       dispatch(
         searcPublicationsSlice.actions.setIDsOfPublicationsObjectSearch(
-          arrIdsOfPublications
+          arrIdsOfPublicationsByPart
         )
       );
 
-      if (arrIdsOfPublications.length > 100) {
-        const getDocumentsByParts = async () => {
-          const resultDocumets = [];
-
-          const arrIds = [...arrIdsOfPublications];
-          let resultIds = [];
-          const countOfFor = arrIdsOfPublications.length / 100;
-          for (let i = 0; i < countOfFor; i++) {
-            let activeIds = arrIds.reduce((acc, el) => {
-              if (!resultIds.includes(el)) acc.push(el);
-              return acc;
-            }, []);
-            resultIds = [...activeIds].splice(0, 100);
-            resultDocumets.push(await documentsSearch(resultIds));
-          }
-          const resultDocumenstOk = resultDocumets.flat().map((el) => el.ok);
-          let one = [];
-          const resultDocumenstOkFiltereed = resultDocumenstOk.reduce(
-            (acc, el) => {
-              if (!acc.find((element) => element.id === el.id)) acc.push(el);
-              else one.push(el);
-              console.log(one, "one");
-              return acc;
-            },
-            []
-          );
-
-          dispatch(
-            searcPublicationsSlice.actions.setDocumetsPublications(
-              resultDocumenstOkFiltereed
-            )
-          );
-        };
-        getDocumentsByParts();
-      } else {
-        const result = await documentsSearch(arrIdsOfPublications);
-        dispatch(
-          searcPublicationsSlice.actions.setDocumetsPublications(result)
-        );
-      }
+      documentsSearch(arrIdsOfPublicationsByPart);
     } catch (err) {
       console.log(err);
     }
   };
   const documentsSearch = async (arrIdsOfPublications) => {
     try {
-      console.log(arrIdsOfPublications, "Входящий массив публикаций");
+      if (arrIdsOfPublications.length > 2) {
+        arrIdsOfPublications = arrIdsOfPublications[count];
+        setCount((prev) => prev + 1);
+      }
       const res = await fetch(
         "https://gateway.scan-interfax.ru/api/v1/documents",
         {
@@ -387,9 +362,8 @@ const useCustomHook = () => {
           }),
         }
       );
-      console.log(res, "Запрос...");
       const result = await res.json();
-      return result;
+      dispatch(searcPublicationsSlice.actions.setDocumetsPublications(result));
     } catch (error) {
       console.log(error);
     }
@@ -400,6 +374,8 @@ const useCustomHook = () => {
     logInAccountHandleClick,
     searchHandleClick,
     loaderPublications,
+    count,
+    setCount,
   };
 };
 export default useCustomHook;

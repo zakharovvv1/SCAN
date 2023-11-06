@@ -1,3 +1,77 @@
 .documentInfoTitle {
-  color: black;
+  margin-top: 24px;
+  text-align: left;
+  color: #000;
+  font-family: Inter;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.52px;
+}
+.documentItemDate {
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+.documentItemInfo {
+  color: #949494;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  text-decoration-line: underline;
+}
+
+.documentsItemDateInfo {
+  display: flex;
+  column-gap: 14px;
+}
+
+.documentItem {
+  text-align: left;
+  padding-right: 30px;
+  padding-bottom: 35px;
+  padding-top: 20px;
+  padding-left: 30px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.documentInfoCategory {
+  margin-top: 14px;
+  text-align: left;
+  display: inline-block;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border-radius: 5px;
+  background: #ffb64f;
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.24px;
+  margin-bottom: 14px;
+}
+
+.documentsMainText {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  opacity: 0.5;
 }

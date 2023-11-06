@@ -12,13 +12,12 @@ const ResultScreen = () => {
     data: [] as unknown,
     count: 0,
   });
-  console.log(
-    "🚀 ~ file: ResultScreen.tsx:15 ~ ResultScreen ~ sortedDatesByParts:",
-    sortedDatesByParts
-  );
 
   const sortedDatesForDataHistograms = useSelector(
     (state) => state.publications.sortedDatesForDataHistograms
+  );
+  const documentPublications = useSelector(
+    (state) => state.publications.documetsPublications
   );
 
   useEffect(() => {
@@ -139,8 +138,10 @@ const ResultScreen = () => {
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
-      {/* {sortedDatesByParts.data !== null &&
-        sortedDatesByParts.map((el) => <DocumentBody document={el} />)} */}
+      {documentPublications &&
+        documentPublications
+          .flat()
+          .map((el, index) => <DocumentBody documentBody={el} index={index} />)}
     </section>
   );
 };

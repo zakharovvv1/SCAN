@@ -23,16 +23,19 @@ const DocumentBody = ({ documentBody, index }) => {
               "dd/mm/yyyy"
             ).replace(/[/]+/g, ".")}
           </p>
-          <p className={styles.documentItemInfo}>
+          <div className={styles.documentItemInfo}>
             {documentBody.ok.source.name}
-          </p>
+          </div>
         </div>
         <h3 className={styles.documentInfoTitle}>
           {documentBody.ok.title.text}
         </h3>
         <p className={styles.documentInfoCategory}>Технические новости</p>
         <div className={styles.documentMainBody}>
-          <img src={urlSrcFinal} alt="" />
+          <div className={styles.imgContainer}>
+            <img className={styles.documentImgBody} src={urlSrcFinal} alt="" />
+          </div>
+
           <p className={styles.documentsMainText}>{clearText}</p>
         </div>
         <button className={styles.documentReadIn}>Читать в источнике</button>

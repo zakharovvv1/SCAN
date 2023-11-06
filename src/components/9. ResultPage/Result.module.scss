@@ -181,10 +181,6 @@
   letter-spacing: 0.6px;
 }
 
-.documentsContainer {
-  display: flex;
-}
-
 .documentsMainText {
   color: #000;
   font-family: Inter;
@@ -193,19 +189,6 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.32px;
-}
-.documentReadIn {
-  color: #000;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: 0.32px;
-  border-radius: 5px;
-  background: #7ce3e1;
-  padding: 14px 30px;
-  border: 0px;
 }
 
 .wordsCount {
@@ -216,4 +199,11 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.32px;
+}
+
+.documentContainerItems {
+  row-gap: 20px;
+  column-gap: 38px;
+  flex-wrap: wrap;
+  display: flex;
 }

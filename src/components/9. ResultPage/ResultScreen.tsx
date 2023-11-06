@@ -7,7 +7,11 @@ import { useSelector } from "react-redux";
 import DocumentBody from "./Document/DocumentBody";
 import { useEffect, useState } from "react";
 const ResultScreen = () => {
-  const { loaderPublications } = useCustomHook();
+  const { loaderPublications, setLoaderPublications } = useCustomHook();
+  console.log(
+    "🚀 ~ file: ResultScreen.tsx:11 ~ ResultScreen ~ loaderPublicationsInResultScreen:",
+    loaderPublications
+  );
   const [sortedDatesByParts, setSortedDatesByParts] = useState({
     data: [] as unknown,
     count: 0,
@@ -38,6 +42,7 @@ const ResultScreen = () => {
           resultIds = [...activeIds].splice(0, 8);
           sortedDatesByParts.push(resultIds);
         }
+
         setSortedDatesByParts((prev) => {
           return { ...prev, data: sortedDatesByParts };
         });
@@ -104,6 +109,8 @@ const ResultScreen = () => {
                   );
                 })}
               </>
+            ) : !loaderPublications && sortedDatesByParts.data.length === 0 ? (
+              <p style={{ color: "black" }}>Данные не найдены</p>
             ) : (
               <p className={styles.loaderPublicationsText}>
                 Загружаю данные...
@@ -138,10 +145,14 @@ const ResultScreen = () => {
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
-      {documentPublications &&
-        documentPublications
-          .flat()
-          .map((el, index) => <DocumentBody documentBody={el} index={index} />)}
+      <div className={styles.documentContainerItems}>
+        {sortedDatesForDataHistograms !== null &&
+          documentPublications
+            .flat()
+            .map((el, index) => (
+              <DocumentBody documentBody={el} index={index} />
+            ))}
+      </div>
     </section>
   );
 };

@@ -66,6 +66,10 @@
 }
 
 .documentsMainText {
+  max-height: 228px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 20px;
   color: #000;
   font-family: Inter;
   font-size: 16px;
@@ -74,4 +78,39 @@
   line-height: normal;
   letter-spacing: 0.32px;
   opacity: 0.5;
+}
+
+.documentsContainer {
+  flex: 0 1 48%;
+}
+
+.documentImgBody {
+  max-width: 581px;
+  max-height: 158px;
+}
+
+.documentContainerItems {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  display: flex;
+}
+
+.documentReadIn {
+  margin-top: 32px;
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  border-radius: 5px;
+  background: #7ce3e1;
+  padding: 14px 30px;
+  border: 0px;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
 }

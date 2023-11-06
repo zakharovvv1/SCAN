@@ -42,6 +42,10 @@ const useCustomHook = () => {
   const [count, setCount] = useState(0);
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
   const [loaderPublications, setLoaderPublications] = useState(false);
+  console.log(
+    "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ loaderPublicationsIn UseCustom:",
+    loaderPublications
+  );
 
   const [isICanSignIn, setICanSignIn] = useState(true);
   console.log(
@@ -68,6 +72,9 @@ const useCustomHook = () => {
 
   useEffect(() => {
     if (documentsPublications !== null && dataHistograms !== null) {
+      if (dataHistograms.data.length === 0) {
+        return;
+      }
       const dataHistogramsDate = dataHistograms.data[0].data;
       const dataRisksDate = dataHistograms.data[1].data;
       console.log(
@@ -170,10 +177,6 @@ const useCustomHook = () => {
     }
   };
   const searchHandleClick = async (searchParams: TypeSearchParams) => {
-    console.log(
-      "🚀 ~ file: useCustomHook.tsx:173 ~ searchHandleClick ~ searchParams:",
-      searchParams
-    );
     setLoaderPublications(true);
     navigate("/results");
     try {
@@ -243,10 +246,15 @@ const useCustomHook = () => {
         }
       );
       const result = await res.json();
-      objectSearch(searchParams);
-      dispatch(searcPublicationsSlice.actions.setDataHistograms(result));
-      console.log(result, "Ответ от сервера");
+      if (result.data.length === 0) {
+        setLoaderPublications(false);
+        return;
+      } else {
+        objectSearch(searchParams);
+        dispatch(searcPublicationsSlice.actions.setDataHistograms(result));
+      }
     } catch (err) {
+      setLoaderPublications(false);
       console.log(err);
     }
   };

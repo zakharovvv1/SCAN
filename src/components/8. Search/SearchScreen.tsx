@@ -467,6 +467,7 @@ const SearchScreen = () => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
+
                   searchHandleClick(checkboxState);
                 }}
                 // disabled={btnSearchToogle}

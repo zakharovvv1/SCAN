@@ -7,16 +7,15 @@ import { useSelector } from "react-redux";
 import DocumentBody from "./Document/DocumentBody";
 import { useEffect, useState } from "react";
 const ResultScreen = () => {
-  const { loaderPublications, setLoaderPublications } = useCustomHook();
-  console.log(
-    "🚀 ~ file: ResultScreen.tsx:11 ~ ResultScreen ~ loaderPublicationsInResultScreen:",
-    loaderPublications
-  );
+  const { documentsSearch, loaderPublications } = useCustomHook();
+
   const [sortedDatesByParts, setSortedDatesByParts] = useState({
     data: [] as unknown,
     count: 0,
   });
-
+  const dataHistograms = useSelector(
+    (state) => state.publications.dataHistograms
+  );
   const sortedDatesForDataHistograms = useSelector(
     (state) => state.publications.sortedDatesForDataHistograms
   );
@@ -24,6 +23,9 @@ const ResultScreen = () => {
     (state) => state.publications.documetsPublications
   );
 
+  const IDsOfPublicationsObjectSearch = useSelector(
+    (state) => state.publications.IDsOfPublicationsObjectSearch
+  );
   useEffect(() => {
     if (sortedDatesForDataHistograms) {
       const sortDataHistograms =
@@ -91,13 +93,19 @@ const ResultScreen = () => {
                 alt=""
               />
             )}
-          <div className={styles.resultTable}>
+          <div
+            className={
+              sortedDatesByParts.data.length !== 0
+                ? styles.resultTable
+                : styles.resultTableMode
+            }
+          >
             <div className={styles.resultTableInfo}>
               <p>Период</p>
               <p>Всего</p>
               <p>Риски</p>
             </div>
-            {!loaderPublications && sortedDatesByParts.data.length !== 0 ? (
+            {sortedDatesByParts.data.length !== 0 ? (
               <>
                 {sortedDatesByParts.data[sortedDatesByParts.count].map((el) => {
                   return (
@@ -109,8 +117,8 @@ const ResultScreen = () => {
                   );
                 })}
               </>
-            ) : !loaderPublications && sortedDatesByParts.data.length === 0 ? (
-              <p style={{ color: "black" }}>Данные не найдены</p>
+            ) : dataHistograms === false ? (
+              <p className={styles.dataIsNotFoundText}>Данные не найдены</p>
             ) : (
               <p className={styles.loaderPublicationsText}>
                 Загружаю данные...
@@ -145,14 +153,31 @@ const ResultScreen = () => {
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
-      <div className={styles.documentContainerItems}>
-        {sortedDatesForDataHistograms !== null &&
-          documentPublications
-            .flat()
-            .map((el, index) => (
-              <DocumentBody documentBody={el} index={index} />
-            ))}
-      </div>
+      {documentPublications.length !== 0 ? (
+        <div className={styles.documentContainerItems}>
+          {sortedDatesForDataHistograms !== null &&
+            documentPublications
+              .flat()
+              .map((el, index) => (
+                <DocumentBody documentBody={el} index={index} />
+              ))}
+        </div>
+      ) : dataHistograms === false ? (
+        <p className={styles.dataDocumentsIsNotFoundText}>Данные не найдены</p>
+      ) : (
+        <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
+      )}
+      {loaderPublications && (
+        <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
+      )}
+      <button
+        onClick={() => {
+          documentsSearch(IDsOfPublicationsObjectSearch.slice(1));
+        }}
+        className={styles.btnShowMore}
+      >
+        Показать еще
+      </button>
     </section>
   );
 };

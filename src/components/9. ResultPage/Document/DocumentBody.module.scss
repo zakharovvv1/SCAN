@@ -1,4 +1,10 @@
 .documentInfoTitle {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 62px;
   margin-top: 24px;
   text-align: left;
   color: #000;
@@ -19,6 +25,11 @@
   letter-spacing: 0.32px;
 }
 .documentItemInfo {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #949494;
   font-family: Inter;
   font-size: 16px;
@@ -66,6 +77,9 @@
 }
 
 .documentsMainText {
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
   max-height: 228px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -85,17 +99,18 @@
 }
 
 .documentImgBody {
+  border-radius: 10px;
   max-width: 581px;
   max-height: 158px;
 }
 
-.documentContainerItems {
-  flex-direction: row;
-  flex-wrap: nowrap;
-  display: flex;
-}
-
 .documentReadIn {
+  transition: all 0.5s ease;
+  &:hover {
+    background-color: #225f5e;
+    color: white;
+    cursor: pointer;
+  }
   margin-top: 32px;
   color: #000;
   font-family: Inter;

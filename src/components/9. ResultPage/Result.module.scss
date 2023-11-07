@@ -68,12 +68,18 @@
 }
 
 .resultTable {
+  width: 100%;
   background: #029491;
   padding-right: 21px;
   border-radius: 10px;
   border: 2px solid #029491;
   background: #fff;
   display: flex;
+}
+
+.resultTableMode {
+  @extend .resultTable;
+  align-items: center;
 }
 
 .resultTableInfo {
@@ -165,6 +171,7 @@
 }
 
 .loaderPublicationsText {
+  width: 100%;
   color: black;
 }
 
@@ -202,8 +209,44 @@
 }
 
 .documentContainerItems {
-  row-gap: 20px;
+  display: grid;
+  grid-template-columns: 641px 641px;
   column-gap: 38px;
-  flex-wrap: wrap;
-  display: flex;
+  row-gap: 38px;
+}
+
+.dataIsNotFoundText {
+  width: 100%;
+  color: black;
+}
+
+.dataDocumentsIsNotFoundText {
+  color: black;
+  margin-bottom: 30px;
+}
+
+.btnShowMore {
+  transition: all 0.5s ease;
+  &:hover {
+    cursor: pointer;
+    background-color: #334196;
+  }
+  border-radius: 5px;
+  background: #5970ff;
+  color: #fff;
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.88px;
+  padding: 16px 50px;
+  border: 0px;
+  margin-top: 54px;
+  margin-bottom: 125px;
+}
+
+.dataIsLoadingText {
+  margin-top: 30px;
+  color: #000;
 }

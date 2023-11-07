@@ -40,10 +40,7 @@ const SearchScreen = () => {
       end: "2023-11-02",
     },
   });
-  console.log(
-    "🚀 ~ file: SearchScreen.tsx:37 ~ SearchScreen ~ tonalSelectVision:",
-    checkboxState.tonalSelectVision
-  );
+
   const isVisibleErrorStateForDocumentCount =
     Number(checkboxState.countOfDocumentsInOut) > 1000 ||
     Number(checkboxState.countOfDocumentsInOut) <= 0;

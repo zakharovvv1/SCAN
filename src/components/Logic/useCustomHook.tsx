@@ -40,6 +40,10 @@ const useCustomHook = () => {
     (state) => state.publications.dataHistograms
   );
   const [count, setCount] = useState(0);
+  console.log(
+    "🚀 ~ file: useCustomHook.tsx:43 ~ useCustomHook ~ count123:",
+    count
+  );
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
   const [loaderPublications, setLoaderPublications] = useState(false);
   console.log(
@@ -71,7 +75,7 @@ const useCustomHook = () => {
   }, [isICanSignIn]);
 
   useEffect(() => {
-    if (documentsPublications !== null && dataHistograms !== null) {
+    if (documentsPublications !== null && dataHistograms) {
       if (dataHistograms.data.length === 0) {
         return;
       }
@@ -177,6 +181,10 @@ const useCustomHook = () => {
     }
   };
   const searchHandleClick = async (searchParams: TypeSearchParams) => {
+    console.log(
+      "🚀 ~ file: useCustomHook.tsx:180 ~ searchHandleClick ~ :",
+      searchParams
+    );
     setLoaderPublications(true);
     navigate("/results");
     try {
@@ -247,6 +255,7 @@ const useCustomHook = () => {
       );
       const result = await res.json();
       if (result.data.length === 0) {
+        dispatch(searcPublicationsSlice.actions.setDataHistograms(false));
         setLoaderPublications(false);
         return;
       } else {
@@ -352,10 +361,11 @@ const useCustomHook = () => {
     }
   };
   const documentsSearch = async (arrIdsOfPublications) => {
+    setLoaderPublications(true);
+
     try {
-      if (arrIdsOfPublications.length > 2) {
+      if (arrIdsOfPublications.length > 1) {
         arrIdsOfPublications = arrIdsOfPublications[count];
-        setCount((prev) => prev + 1);
       }
       const res = await fetch(
         "https://gateway.scan-interfax.ru/api/v1/documents",
@@ -372,6 +382,7 @@ const useCustomHook = () => {
       );
       const result = await res.json();
       dispatch(searcPublicationsSlice.actions.setDocumetsPublications(result));
+      setLoaderPublications(false);
     } catch (error) {
       console.log(error);
     }
@@ -384,6 +395,7 @@ const useCustomHook = () => {
     loaderPublications,
     count,
     setCount,
+    documentsSearch,
   };
 };
 export default useCustomHook;

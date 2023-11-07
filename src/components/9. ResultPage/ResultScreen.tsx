@@ -172,7 +172,7 @@ const ResultScreen = () => {
       )}
       <button
         onClick={() => {
-          documentsSearch(IDsOfPublicationsObjectSearch.slice(1));
+          documentsSearch(IDsOfPublicationsObjectSearch);
         }}
         className={styles.btnShowMore}
       >

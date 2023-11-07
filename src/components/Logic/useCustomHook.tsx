@@ -366,6 +366,7 @@ const useCustomHook = () => {
     try {
       if (arrIdsOfPublications.length > 1) {
         arrIdsOfPublications = arrIdsOfPublications[count];
+        setCount((prev) => prev + 1);
       }
       const res = await fetch(
         "https://gateway.scan-interfax.ru/api/v1/documents",

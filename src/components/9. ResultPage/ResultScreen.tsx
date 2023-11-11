@@ -194,6 +194,8 @@ const ResultScreen = () => {
         </div>
       ) : dataHistograms !== false && documentPublications.length === 0 ? (
         <p className={styles.dataDocumentsIsNotFoundText}>Данные не найдены</p>
+      ) : dataHistograms === false ? (
+        <p className={styles.dataIsLoadingText}>Данные не найдены</p>
       ) : (
         <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
       )}

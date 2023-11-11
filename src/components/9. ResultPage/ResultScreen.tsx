@@ -13,13 +13,14 @@ const ResultScreen = () => {
     count: 0,
   });
   const [width, setWidth] = useState(window.innerWidth);
-
+  const [sumOfValues, setSumOfValues] = useState(0);
   const dataHistograms = useSelector(
     (state) => state.publications.dataHistograms
   );
   const sortedDatesForDataHistograms = useSelector(
     (state) => state.publications.sortedDatesForDataHistograms
   );
+
   const documentPublications = useSelector(
     (state) => state.publications.documetsPublications
   );
@@ -34,6 +35,13 @@ const ResultScreen = () => {
     };
     window.onresize = onResizeFunction;
     if (sortedDatesForDataHistograms) {
+      const sumOfValue = sortedDatesForDataHistograms.sortDataHistograms.reduce(
+        (acc, el) => {
+          return (acc = acc + el.value);
+        },
+        0
+      );
+      setSumOfValues(sumOfValue);
       const sortDataHistograms =
         sortedDatesForDataHistograms.sortDataHistograms;
       if (window.innerWidth < 767) {
@@ -62,6 +70,14 @@ const ResultScreen = () => {
           setSortedDatesByParts((prev) => {
             return { ...prev, data: sortedDatesByParts, count: 0 };
           });
+        } else {
+          setSortedDatesByParts((prev) => {
+            return {
+              ...prev,
+              data: [sortDataHistograms],
+              count: 0,
+            };
+          });
         }
       }
     }
@@ -85,29 +101,30 @@ const ResultScreen = () => {
       </div>
       <div className={styles.resultTableContainer}>
         <h2 className={styles.resultTableTitle}>Общая сводка</h2>
-        <p className={styles.resultTableSubtitle}>Найдено 4 221 вариантов</p>
+        <p className={styles.resultTableSubtitle}>
+          Найдено {sumOfValues} вариантов
+        </p>
         <div className={styles.resultTableAndArrowContainer}>
-          {sortedDatesForDataHistograms &&
-            sortedDatesForDataHistograms.sortDataHistograms.length > 8 && (
-              <img
-                onClick={() => {
-                  setSortedDatesByParts((prev) => {
-                    if (prev.count === 0) {
-                      return { ...prev, count: 0 };
-                    } else {
-                      return { ...prev, count: prev.count - 1 };
-                    }
-                  });
-                }}
-                className={
-                  sortedDatesByParts.count !== 0
-                    ? styles.tableArrowLeft
-                    : styles.tableArrowLeftWithOpacity
-                }
-                src={arrowRightTable}
-                alt=""
-              />
-            )}
+          {sortedDatesForDataHistograms && (
+            <img
+              onClick={() => {
+                setSortedDatesByParts((prev) => {
+                  if (prev.count === 0) {
+                    return { ...prev, count: 0 };
+                  } else {
+                    return { ...prev, count: prev.count - 1 };
+                  }
+                });
+              }}
+              className={
+                sortedDatesByParts.count !== 0
+                  ? styles.tableArrowLeft
+                  : styles.tableArrowLeftWithOpacity
+              }
+              src={arrowRightTable}
+              alt=""
+            />
+          )}
           <div
             className={
               sortedDatesByParts.data.length !== 0
@@ -140,31 +157,29 @@ const ResultScreen = () => {
               </p>
             )}
           </div>
-          {sortedDatesForDataHistograms &&
-            sortedDatesForDataHistograms.sortDataHistograms.length > 8 && (
-              <img
-                onClick={() => {
-                  setSortedDatesByParts((prev) => {
-                    if (prev.count === sortedDatesByParts.data.length - 1) {
-                      return {
-                        ...prev,
-                        count: sortedDatesByParts.data.length - 1,
-                      };
-                    } else {
-                      return { ...prev, count: prev.count + 1 };
-                    }
-                  });
-                }}
-                className={
-                  sortedDatesByParts.count !==
-                  sortedDatesByParts.data.length - 1
-                    ? styles.tableArrowRight
-                    : styles.tableArrowRightWithOpacity
-                }
-                src={arrowRightTable}
-                alt=""
-              />
-            )}
+          {sortedDatesForDataHistograms && (
+            <img
+              onClick={() => {
+                setSortedDatesByParts((prev) => {
+                  if (prev.count === sortedDatesByParts.data.length - 1) {
+                    return {
+                      ...prev,
+                      count: sortedDatesByParts.data.length - 1,
+                    };
+                  } else {
+                    return { ...prev, count: prev.count + 1 };
+                  }
+                });
+              }}
+              className={
+                sortedDatesByParts.count !== sortedDatesByParts.data.length - 1
+                  ? styles.tableArrowRight
+                  : styles.tableArrowRightWithOpacity
+              }
+              src={arrowRightTable}
+              alt=""
+            />
+          )}
         </div>
       </div>
       <h2 className={styles.documentsTitle}>Список документов</h2>
@@ -177,7 +192,7 @@ const ResultScreen = () => {
                 <DocumentBody documentBody={el} index={index} />
               ))}
         </div>
-      ) : dataHistograms === false ? (
+      ) : dataHistograms !== false && documentPublications.length === 0 ? (
         <p className={styles.dataDocumentsIsNotFoundText}>Данные не найдены</p>
       ) : (
         <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
@@ -185,10 +200,10 @@ const ResultScreen = () => {
       {loaderPublications && (
         <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
       )}
-      {!loaderPublications && dataHistograms !== false && (
+      {!loaderPublications && documentPublications.length !== 0 && (
         <button
           onClick={() => {
-            documentsSearch(IDsOfPublicationsObjectSearch);
+            documentsSearch(IDsOfPublicationsObjectSearch.slice(1));
           }}
           className={styles.btnShowMore}
         >

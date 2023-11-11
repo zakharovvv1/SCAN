@@ -104,7 +104,7 @@ const useCustomHook = () => {
         })
       );
     }
-  }, [documentsPublications]);
+  }, [documentsPublications, dataHistograms]);
   const logInWithToken = async (token: string) => {
     try {
       setLoaderUserAccount(true);
@@ -363,10 +363,17 @@ const useCustomHook = () => {
           }),
         }
       );
-      const result = await res.json();
-      dispatch(searcPublicationsSlice.actions.setDocumetsPublications(result));
-      setLoaderPublications(false);
+      if (res.status === 400) {
+        setLoaderPublications(false);
+      } else if (res.status === 200) {
+        const result = await res.json();
+        dispatch(
+          searcPublicationsSlice.actions.setDocumetsPublications(result)
+        );
+        setLoaderPublications(false);
+      }
     } catch (error) {
+      setLoaderPublications(false);
       console.log(error);
     }
   };

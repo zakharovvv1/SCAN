@@ -1,6 +1,5 @@
 import styles from "./Result.module.scss";
 import resultHeroImg from "./imgs/resultHeroImg.svg";
-import arrowLeftTable from "./imgs/arrowLeftTable.svg";
 import arrowRightTable from "./imgs/arrowRightTable.svg";
 import useCustomHook from "../Logic/useCustomHook";
 import { useSelector } from "react-redux";
@@ -13,6 +12,8 @@ const ResultScreen = () => {
     data: [] as unknown,
     count: 0,
   });
+  const [width, setWidth] = useState(window.innerWidth);
+
   const dataHistograms = useSelector(
     (state) => state.publications.dataHistograms
   );
@@ -26,31 +27,45 @@ const ResultScreen = () => {
   const IDsOfPublicationsObjectSearch = useSelector(
     (state) => state.publications.IDsOfPublicationsObjectSearch
   );
+
   useEffect(() => {
+    const onResizeFunction = () => {
+      setWidth(window.innerWidth);
+    };
+    window.onresize = onResizeFunction;
     if (sortedDatesForDataHistograms) {
       const sortDataHistograms =
         sortedDatesForDataHistograms.sortDataHistograms;
-      if (sortDataHistograms.length > 8) {
-        const sortedDatesByParts = [];
-
-        const arrIds = [...sortDataHistograms];
-        let resultIds = [];
-        const countOfFor = arrIds.length / 8;
-        for (let i = 0; i < countOfFor; i++) {
-          let activeIds = arrIds.reduce((acc, el) => {
-            if (!resultIds.includes(el)) acc.push(el);
-            return acc;
-          }, []);
-          resultIds = [...activeIds].splice(0, 8);
-          sortedDatesByParts.push(resultIds);
-        }
-
-        setSortedDatesByParts((prev) => {
-          return { ...prev, data: sortedDatesByParts };
+      if (window.innerWidth < 767) {
+        const dataHistogramsForMobile = sortDataHistograms.map((el) => {
+          return [el];
         });
+        setSortedDatesByParts((prev) => {
+          return { ...prev, data: dataHistogramsForMobile };
+        });
+      } else {
+        if (sortDataHistograms.length > 8) {
+          const sortedDatesByParts = [];
+
+          const arrIds = [...sortDataHistograms];
+          let resultIds = [];
+          const countOfFor = arrIds.length / 8;
+          for (let i = 0; i < countOfFor; i++) {
+            let activeIds = arrIds.reduce((acc, el) => {
+              if (!resultIds.includes(el)) acc.push(el);
+              return acc;
+            }, []);
+            resultIds = [...activeIds].splice(0, 8);
+            sortedDatesByParts.push(resultIds);
+          }
+
+          setSortedDatesByParts((prev) => {
+            return { ...prev, data: sortedDatesByParts, count: 0 };
+          });
+        }
       }
     }
-  }, [sortedDatesForDataHistograms]);
+  }, [sortedDatesForDataHistograms, width]);
 
   return (
     <section className={styles.resultSection}>
@@ -170,14 +185,16 @@ const ResultScreen = () => {
       {loaderPublications && (
         <p className={styles.dataIsLoadingText}>Загружаю данные...</p>
       )}
-      <button
-        onClick={() => {
-          documentsSearch(IDsOfPublicationsObjectSearch);
-        }}
-        className={styles.btnShowMore}
-      >
-        Показать еще
-      </button>
+      {!loaderPublications && dataHistograms !== false && (
+        <button
+          onClick={() => {
+            documentsSearch(IDsOfPublicationsObjectSearch);
+          }}
+          className={styles.btnShowMore}
+        >
+          Показать еще
+        </button>
+      )}
     </section>
   );
 };

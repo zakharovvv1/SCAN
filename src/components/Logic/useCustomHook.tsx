@@ -28,7 +28,6 @@ type TypeSearchParams = {
 };
 
 const useCustomHook = () => {
-  console.log("Рендер кастомного");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,22 +39,12 @@ const useCustomHook = () => {
     (state) => state.publications.dataHistograms
   );
   const [count, setCount] = useState(0);
-  console.log(
-    "🚀 ~ file: useCustomHook.tsx:43 ~ useCustomHook ~ count123:",
-    count
-  );
+
   const [loaderUserAccount, setLoaderUserAccount] = useState(false);
   const [loaderPublications, setLoaderPublications] = useState(false);
-  console.log(
-    "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ loaderPublicationsIn UseCustom:",
-    loaderPublications
-  );
 
   const [isICanSignIn, setICanSignIn] = useState(true);
-  console.log(
-    "🚀 ~ file: useCustomHook.tsx:35 ~ useCustomHook ~ isICanSignIn:",
-    isICanSignIn
-  );
+
   const tokenInLocalStorage = localStorage.getItem("token");
 
   useEffect(() => {
@@ -81,10 +70,7 @@ const useCustomHook = () => {
       }
       const dataHistogramsDate = dataHistograms.data[0].data;
       const dataRisksDate = dataHistograms.data[1].data;
-      console.log(
-        "🚀 ~ file: useCustomHook.tsx:45 ~ useCustomHook ~ dataHistogramsDate:",
-        dataHistogramsDate
-      );
+
       const sortDataHistogramsByDate = [...dataHistogramsDate].sort((a, b) =>
         a.date > b.date ? 1 : -1
       );
@@ -181,10 +167,6 @@ const useCustomHook = () => {
     }
   };
   const searchHandleClick = async (searchParams: TypeSearchParams) => {
-    console.log(
-      "🚀 ~ file: useCustomHook.tsx:180 ~ searchHandleClick ~ :",
-      searchParams
-    );
     setLoaderPublications(true);
     navigate("/results");
     try {

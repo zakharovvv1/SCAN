@@ -31,11 +31,13 @@
 }
 
 .resultHero {
+  padding-bottom: 20px;
   justify-content: space-between;
   display: flex;
 }
 
 .resultHeroImg {
+  width: 100%;
   transform: translateY(-40px);
 }
 
@@ -210,7 +212,7 @@
 
 .documentContainerItems {
   display: grid;
-  grid-template-columns: 641px 641px;
+  grid-template-columns: minmax(200px, 50%) minmax(200px, 50%);
   column-gap: 38px;
   row-gap: 38px;
 }
@@ -247,6 +249,97 @@
 }
 
 .dataIsLoadingText {
+  margin-bottom: 30px;
   margin-top: 30px;
   color: #000;
+}
+
+@media (max-width: 1439px) {
+  .resultTable {
+    overflow-x: scroll;
+  }
+}
+
+@media (max-width: 1023px) {
+  .documentContainerItems {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (max-width: 767px) {
+  .resultSection {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+  .resultHero {
+    flex-direction: column;
+  }
+  .resultHeroImg {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 766px) {
+  .resultHeroTitle {
+    font-size: 30px;
+  }
+  .resultTable {
+    overflow-x: auto;
+    flex-direction: column;
+
+    padding-right: 0;
+    &::after {
+      display: none;
+    }
+  }
+  .resultTableInfo {
+    width: 100%;
+    p {
+      color: #fff;
+      font-family: Inter;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: 0.18px;
+    }
+    display: grid;
+    padding-left: 15px;
+    padding-right: 15px;
+    grid-template-columns: 45% 26% 30%;
+    justify-items: center;
+  }
+  .resultTableItem {
+    p {
+      font-size: 16px;
+    }
+    &::after {
+      display: none;
+    }
+    padding-left: 15px;
+    padding-right: 15px;
+    display: grid;
+    grid-template-columns: 45% 26% 30%;
+    justify-items: center;
+  }
+
+  .tableArrowLeft,
+  .tableArrowRight,
+  .tableArrowLeftWithOpacity,
+  .tableArrowRightWithOpacity {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 374px) {
+  .resultTableInfo {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .resultTableItem {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }

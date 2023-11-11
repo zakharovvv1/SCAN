@@ -129,3 +129,23 @@
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 1439px) {
+  .documentImgBody {
+    min-height: 158px;
+  }
+}
+@media (max-width: 1023px) {
+  .documentImgBody {
+    width: auto;
+  }
+}
+@media (max-width: 600px) {
+  .documentImgBody {
+    width: 100%;
+  }
+  .documentItem {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

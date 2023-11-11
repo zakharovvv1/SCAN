@@ -3,22 +3,15 @@ import styles from "./Search.module.scss";
 import formRightImg from "./imgs/formRightImg.svg";
 import { CompareDates, DateToYMDNow } from "./DateToYYMMDD";
 import useCustomHook from "../Logic/useCustomHook";
+
 const SearchScreen = () => {
   const { searchHandleClick } = useCustomHook();
 
-  console.log("Перерисовка компонента");
   const ref = useRef(null);
-  console.log("🚀 ~ file: SearchScreen.tsx:14 ~ SearchScreen ~ ref:", ref);
   const refItem = useRef(null);
-  console.log(
-    "🚀 ~ file: SearchScreen.tsx:16 ~ SearchScreen ~ refItem:",
-    refItem
-  );
+
   const refInputStart = useRef(null);
-  console.log(
-    "🚀 ~ file: SearchScreen.tsx:17 ~ SearchScreen ~ refInputStart:",
-    refInputStart
-  );
+
   const refInputEnd = useRef(null);
   const dateNow = DateToYMDNow();
   const [checkboxState, setCheckboxState] = useState({
@@ -32,12 +25,12 @@ const SearchScreen = () => {
     INNOfCompany: "7728551528",
     tonal: "Любая",
     tonalSelectVision: false,
-    countOfDocumentsInOut: "1000",
+    countOfDocumentsInOut: "",
     typeOfInputsStart: "text",
     typeOfInputsEnd: "text",
     searchRange: {
-      start: "2020-11-02",
-      end: "2023-11-02",
+      start: "",
+      end: "",
     },
   });
 
@@ -467,7 +460,7 @@ const SearchScreen = () => {
 
                   searchHandleClick(checkboxState);
                 }}
-                // disabled={btnSearchToogle}
+                disabled={btnSearchToogle}
                 className={styles.btnSearch}
               >
                 Поиск

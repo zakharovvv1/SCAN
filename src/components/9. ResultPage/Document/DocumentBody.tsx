@@ -3,7 +3,6 @@ import dateformat from "dateformat";
 import { FindImgInMarks } from "./FindImgInMarks";
 
 const DocumentBody = ({ documentBody, index }) => {
-  console.log(documentBody, "documentBody123");
   const markUpText = documentBody.ok.content.markup;
   const urlSrc = FindImgInMarks(markUpText, index);
   const urlSrcFinal = urlSrc.replace(/'|"/gm, "");

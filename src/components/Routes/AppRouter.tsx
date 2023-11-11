@@ -13,7 +13,6 @@ function AppRouter() {
   const boolean =
     currentUserInStore.companyLimit !== 0 ||
     currentUserInStore.usedCompanyCount !== 0;
-  console.log(boolean, "boolean");
 
   return (
     <BrowserRouter>

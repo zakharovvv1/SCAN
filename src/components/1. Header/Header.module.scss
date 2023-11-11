@@ -28,6 +28,7 @@ li {
 }
 
 .logo {
+  cursor: pointer;
   flex: 0 0 141px;
   width: 141px;
   height: 93px;
@@ -80,6 +81,14 @@ li {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.userCompanyCountText {
+  color: black;
+}
+
+.companyLimit {
+  color: #8ac540;
 }
 
 .limitCompanyCountItem {

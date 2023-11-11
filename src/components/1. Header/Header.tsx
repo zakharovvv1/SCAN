@@ -10,10 +10,7 @@ const Header = () => {
     (state) => state.user
   );
   const navigate = useNavigate();
-  console.log(
-    "🚀 ~ file: Header.tsx:11 ~ Header ~ currentUserInStore:",
-    currentUserInStore
-  );
+
   return (
     <header className={styles.header}>
       <div
@@ -42,8 +39,12 @@ const Header = () => {
             <p>Лимит по компаниям</p>
           </div>
           <div className={styles.limitCompanyCountItem}>
-            <div>{currentUserInStore.usedCompanyCount}</div>
-            <div>{currentUserInStore.companyLimit}</div>
+            <div className={styles.userCompanyCountText}>
+              {currentUserInStore.usedCompanyCount}
+            </div>
+            <div className={styles.companyLimit}>
+              {currentUserInStore.companyLimit}
+            </div>
           </div>
         </div>
       )}

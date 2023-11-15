@@ -7,7 +7,7 @@ export const DateToYMDNow = () => {
   return `${year}-${moths}-${day}`;
 };
 
-export const CompareDates = (dateOfStart, dateOfEnd) => {
+export const CompareDates = (dateOfStart: any, dateOfEnd: any) => {
   if (dateOfStart === "" && dateOfEnd === "") {
     return false;
   }

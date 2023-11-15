@@ -7,7 +7,7 @@ import { TypeUserInStore } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
   const currentUserInStore: TypeUserInStore = useSelector(
-    (state) => state.user
+    (state: any) => state.user
   );
   const navigate = useNavigate();
 

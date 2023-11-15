@@ -11,22 +11,22 @@ const ResultScreen = () => {
   const [sortedDatesByParts, setSortedDatesByParts] = useState({
     data: [] as unknown,
     count: 0,
-  });
+  } as any);
   const [width, setWidth] = useState(window.innerWidth);
   const [sumOfValues, setSumOfValues] = useState(0);
   const dataHistograms = useSelector(
-    (state) => state.publications.dataHistograms
+    (state: any) => state.publications.dataHistograms
   );
   const sortedDatesForDataHistograms = useSelector(
-    (state) => state.publications.sortedDatesForDataHistograms
+    (state: any) => state.publications.sortedDatesForDataHistograms
   );
 
   const documentPublications = useSelector(
-    (state) => state.publications.documetsPublications
+    (state: any) => state.publications.documetsPublications
   );
 
   const IDsOfPublicationsObjectSearch = useSelector(
-    (state) => state.publications.IDsOfPublicationsObjectSearch
+    (state: any) => state.publications.IDsOfPublicationsObjectSearch
   );
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const ResultScreen = () => {
     window.onresize = onResizeFunction;
     if (sortedDatesForDataHistograms) {
       const sumOfValue = sortedDatesForDataHistograms.sortDataHistograms.reduce(
-        (acc, el) => {
+        (acc: any, el: any) => {
           return (acc = acc + el.value);
         },
         0
@@ -45,18 +45,18 @@ const ResultScreen = () => {
       const sortDataHistograms =
         sortedDatesForDataHistograms.sortDataHistograms;
       if (window.innerWidth < 767) {
-        const dataHistogramsForMobile = sortDataHistograms.map((el) => {
+        const dataHistogramsForMobile = sortDataHistograms.map((el: any) => {
           return [el];
         });
-        setSortedDatesByParts((prev) => {
+        setSortedDatesByParts((prev: any) => {
           return { ...prev, data: dataHistogramsForMobile };
         });
       } else {
         if (sortDataHistograms.length > 8) {
-          const sortedDatesByParts = [];
+          const sortedDatesByParts = [] as any[];
 
           const arrIds = [...sortDataHistograms];
-          let resultIds = [];
+          let resultIds = [] as any[];
           const countOfFor = arrIds.length / 8;
           for (let i = 0; i < countOfFor; i++) {
             let activeIds = arrIds.reduce((acc, el) => {
@@ -67,11 +67,11 @@ const ResultScreen = () => {
             sortedDatesByParts.push(resultIds);
           }
 
-          setSortedDatesByParts((prev) => {
+          setSortedDatesByParts((prev: any) => {
             return { ...prev, data: sortedDatesByParts, count: 0 };
           });
         } else {
-          setSortedDatesByParts((prev) => {
+          setSortedDatesByParts((prev: any) => {
             return {
               ...prev,
               data: [sortDataHistograms],
@@ -108,7 +108,7 @@ const ResultScreen = () => {
           {sortedDatesForDataHistograms && (
             <img
               onClick={() => {
-                setSortedDatesByParts((prev) => {
+                setSortedDatesByParts((prev: any) => {
                   if (prev.count === 0) {
                     return { ...prev, count: 0 };
                   } else {
@@ -139,15 +139,17 @@ const ResultScreen = () => {
             </div>
             {sortedDatesByParts.data.length !== 0 ? (
               <>
-                {sortedDatesByParts.data[sortedDatesByParts.count].map((el) => {
-                  return (
-                    <div className={styles.resultTableItem}>
-                      <p>{el.date}</p>
-                      <p>{el.value}</p>
-                      <p>0</p>
-                    </div>
-                  );
-                })}
+                {sortedDatesByParts.data[sortedDatesByParts.count].map(
+                  (el: any) => {
+                    return (
+                      <div className={styles.resultTableItem}>
+                        <p>{el.date}</p>
+                        <p>{el.value}</p>
+                        <p>0</p>
+                      </div>
+                    );
+                  }
+                )}
               </>
             ) : dataHistograms === false ? (
               <p className={styles.dataIsNotFoundText}>Данные не найдены</p>
@@ -160,7 +162,7 @@ const ResultScreen = () => {
           {sortedDatesForDataHistograms && (
             <img
               onClick={() => {
-                setSortedDatesByParts((prev) => {
+                setSortedDatesByParts((prev: any) => {
                   if (prev.count === sortedDatesByParts.data.length - 1) {
                     return {
                       ...prev,
@@ -188,7 +190,7 @@ const ResultScreen = () => {
           {sortedDatesForDataHistograms !== null &&
             documentPublications
               .flat()
-              .map((el, index) => (
+              .map((el: any, index: any) => (
                 <DocumentBody documentBody={el} index={index} />
               ))}
         </div>

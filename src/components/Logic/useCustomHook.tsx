@@ -31,12 +31,12 @@ const useCustomHook = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user);
+  const userInfo = useSelector((state: any) => state.user);
   const documentsPublications = useSelector(
-    (state) => state.publications.documetsPublications
+    (state: any) => state.publications.documetsPublications
   );
   const dataHistograms = useSelector(
-    (state) => state.publications.dataHistograms
+    (state: any) => state.publications.dataHistograms
   );
   const [count, setCount] = useState(0);
 
@@ -318,7 +318,7 @@ const useCustomHook = () => {
       );
       const result = await res.json();
 
-      const arrIdsOfPublications = result.items.map((el) => {
+      const arrIdsOfPublications = result.items.map((el: any) => {
         return el.encodedId;
       });
       let arrIdsOfPublicationsByPart = [];
@@ -342,7 +342,7 @@ const useCustomHook = () => {
       console.log(err);
     }
   };
-  const documentsSearch = async (arrIdsOfPublications) => {
+  const documentsSearch = async (arrIdsOfPublications: any) => {
     setLoaderPublications(true);
 
     try {

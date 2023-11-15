@@ -7,7 +7,7 @@ import keyImg from "./imgs/keyImg.svg";
 import { useState } from "react";
 import useCustomHook from "../Logic/useCustomHook";
 const LoginScreen = () => {
-  const { loaderUserAccount, logInAccountHandleClick } = useCustomHook();
+  const { logInAccountHandleClick } = useCustomHook();
   const [userInfo, setUserInfo] = useState({
     login: "",
     password: "",

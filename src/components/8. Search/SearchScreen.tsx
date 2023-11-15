@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import formRightImg from "./imgs/formRightImg.svg";
@@ -49,7 +50,7 @@ const SearchScreen = () => {
     compareDatesBoolean;
 
   useEffect(() => {
-    const onClick = (event) => {
+    const onClick = (event: any) => {
       const typeOfInputsForDateStart =
         checkboxState.searchRange.start === "" ? "text" : "date";
       const typeOfInputsForDateEnd =

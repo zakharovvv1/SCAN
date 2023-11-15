@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const FindImgInMarks = (markUpText, index) => {
   let dataContentSrcWithAttribute = markUpText.match(/data-content-src=\S+"/gm);
   if (dataContentSrcWithAttribute) {

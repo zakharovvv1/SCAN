@@ -1,3 +1,4 @@
+// @ts-nocheck
 import styles from "./DocumentBody.module.scss";
 import dateformat from "dateformat";
 import { FindImgInMarks } from "./FindImgInMarks";

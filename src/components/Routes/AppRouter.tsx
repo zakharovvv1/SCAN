@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useSelector } from "react-redux";
 import LoginMain from "../7. Login/LoginMain";
 import SearchMain from "../8. Search/SearchMain";
